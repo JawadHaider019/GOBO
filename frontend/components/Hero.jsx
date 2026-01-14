@@ -78,7 +78,7 @@ const Hero = () => {
   }, [login]);
 
   return (
-    <section className="relative min-h-[90vh] w-full rounded-b-[3rem] md:rounded-b-[5rem] overflow-hidden bg-gradient-to-b from-[#003d2b] to-[#002219] text-white">
+    <section className="relative h-[100vh] w-full rounded-b-[3rem] md:rounded-b-[5rem] overflow-hidden bg-gradient-to-b from-[#003d2b] to-[#002219] text-white">
       {/* Enhanced animated background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-15%] left-[-10%] w-[60%] h-[60%] bg-gradient-to-r from-green-500/20 to-emerald-400/20 rounded-full blur-[120px] animate-pulse"></div>
@@ -177,7 +177,7 @@ const Hero = () => {
                     onAuth={handleAuth}
                     isLoading={isAuthLoading}
                     error={authError}
-                    onLogout={logout} // Use global logout function
+                    onLogout={logout}
                     showQR={true}
                   />
                 </div>

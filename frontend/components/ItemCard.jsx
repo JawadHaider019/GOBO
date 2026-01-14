@@ -88,7 +88,7 @@ const ItemCard = ({
                 ${price}
               </span>
               <span className="bg-red-500/80 text-white px-3 py-1 rounded-full text-[9px] font-black tracking-widest uppercase">
-                -{discountPercentage}%
+                {discountPercentage}% off
               </span>
             </div>
           ) : (

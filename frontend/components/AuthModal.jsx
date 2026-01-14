@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import Auth from './Auth';
+import { useApp } from '@/context/AppContext'; // Import the context
 
 const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
+  const { user, login, logout } = useApp(); // Get global state functions
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [user, setUser] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
 
   // Reset when modal opens/closes
@@ -19,71 +20,76 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
   const resetModal = () => {
     setIsLoading(false);
     setError('');
-    setUser(null);
     setShowSuccess(false);
   };
 
-  const handleAuth = (authData) => {
+  const handleAuth = async (authData) => {
     setIsLoading(true);
     setError('');
     setShowSuccess(false);
 
-    // Validate form
-    if (!authData.email || !authData.password) {
-      setError('Email and password are required');
-      setIsLoading(false);
-      return;
-    }
-
-    if (!authData.isLogin) {
-      // Signup validation
-      if (!authData.name || !authData.cnic || !authData.address) {
-        setError('All fields are required for registration');
-        setIsLoading(false);
-        return;
+    try {
+      // Validate form
+      if (!authData.email || !authData.password) {
+        throw new Error('Email and password are required');
       }
 
-      if (authData.password !== authData.confirmPassword) {
-        setError('Passwords do not match');
-        setIsLoading(false);
-        return;
+      if (!authData.isLogin) {
+        // Signup validation
+        if (!authData.name || !authData.cnic || !authData.address) {
+          throw new Error('All fields are required for registration');
+        }
+
+        if (authData.password !== authData.confirmPassword) {
+          throw new Error('Passwords do not match');
+        }
+
+        // CNIC validation
+        const cnicRegex = /^[0-9]{5}-[0-9]{7}-[0-9]{1}$/;
+        if (!cnicRegex.test(authData.cnic)) {
+          throw new Error('Please enter a valid CNIC (format: 12345-1234567-1)');
+        }
+        
+        if (authData.password.length < 8) {
+          throw new Error('Password must be at least 8 characters');
+        }
       }
 
-      // CNIC validation
-      const cnicRegex = /^[0-9]{5}-[0-9]{7}-[0-9]{1}$/;
-      if (!cnicRegex.test(authData.cnic)) {
-        setError('Please enter a valid CNIC (format: 12345-1234567-1)');
-        setIsLoading(false);
-        return;
-      }
-    }
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
       // Create user data
       const userData = authData.isLogin
         ? {
+            id: Date.now(),
             email: authData.email,
             role: authData.email.includes('admin') ? 'admin' : 'user',
             name: authData.email.includes('admin') ? 'Admin User' : 'Demo User',
             cnic: '42101-1234567-8',
-            address: 'Lahore, Pakistan'
+            address: 'Lahore, Pakistan',
+            joinedDate: new Date().toISOString(),
+            walletBalance: 5000,
+            bookingsCount: 12,
+            isVerified: true
           }
         : {
+            id: Date.now(),
             email: authData.email,
             role: 'user',
             name: authData.name,
             cnic: authData.cnic,
-            address: authData.address
+            address: authData.address,
+            joinedDate: new Date().toISOString(),
+            walletBalance: 1000,
+            bookingsCount: 0,
+            isVerified: false
           };
 
-      // Set user for Auth component to show logged-in state
-      setUser(userData);
+      // Use the global login function instead of local setUser
+      login(userData);
       setShowSuccess(true);
 
-      // Call success callback
+      // Call success callback if provided
       if (onAuthSuccess) {
         onAuthSuccess(userData);
       }
@@ -93,12 +99,17 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
         onClose();
         setShowSuccess(false);
       }, 2000);
-    }, 1500);
+      
+    } catch (error) {
+      setError(error.message || 'Authentication failed');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  // Handle logout in modal
+  // Handle logout in modal - use global logout
   const handleLogout = () => {
-    setUser(null);
+    logout(); // Use global logout function
     setError('');
     setShowSuccess(false);
   };
@@ -129,40 +140,34 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
           {/* Close Button with glass effect */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-3 z-10 w-10 h-10  backdrop-blur-xl rounded-full flex items-center justify-center text-black  transition-all duration-300 shadow-2xl shadow-black/30 border border-white/10"
+            className="absolute top-4 right-3 z-10 w-10 h-10 backdrop-blur-xl rounded-full flex items-center justify-center text-black transition-all duration-300 shadow-2xl shadow-black/30 border border-white/10"
             aria-label="Close modal"
           >
             <i className="fas fa-times text-sm"></i>
           </button>
 
           {/* Glass Card with enhanced effects */}
-          <div className=" bg-white  rounded-3xl shadow-2xl shadow-black/30  overflow-hidden py-4 ">
-       
+          <div className="bg-white rounded-3xl shadow-2xl shadow-black/30 overflow-hidden py-4">
             {/* Success Overlay */}
             {showSuccess && (
               <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/5 rounded-3xl animate-pulse pointer-events-none"></div>
             )}
-
-          
             
             {/* Card Body */}
-            <div className=" px-6">
-              {/* Auth Component inside card */}
+            <div className="px-6">
+              {/* Auth Component inside card - Pass global user */}
               <div className={showSuccess ? 'opacity-50 pointer-events-none' : ''}>
                 <Auth 
-                  user={user}
+                  user={user}  
                   onAuth={handleAuth}
                   isLoading={isLoading}
                   error={error}
-                  onLogout={handleLogout}
-                  showQR={false} 
-                 
+                  onLogout={handleLogout} 
+                  showQR={false}
                 />
               </div>
             </div>
             
-          
-
             {/* Floating particles */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               {[...Array(8)].map((_, i) => (
@@ -179,8 +184,6 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
               ))}
             </div>
           </div>
-    
-         
         </div>
       </div>
 

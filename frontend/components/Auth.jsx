@@ -100,7 +100,8 @@ const Auth = ({
 
   // Responsive input classes for white background with specific placeholder colors
   const getInputClass = (fieldName) => {
-    const baseClass = "w-full bg-white border rounded-lg px-4 py-3 font-medium text-sm outline-none transition-all duration-200 shadow-sm";
+    // Add text-gray-900 to ensure dark text color for all inputs
+    const baseClass = "w-full bg-white border rounded-lg px-4 py-3 font-medium text-sm outline-none transition-all duration-200 shadow-sm text-gray-900";
     
     let placeholderClass = "";
     if (fieldName === 'password' || fieldName === 'confirmPassword') {
@@ -138,70 +139,69 @@ const Auth = ({
 
   // Show logged-in state with QR code
   if (user) {
-  return (
-  <div className="text-center space-y-6 w-full mx-auto">
-    {/* QR Code Section */}
-    <div className="relative">
-      <div className="w-40 h-40 bg-white rounded-xl border border-gray-200 flex items-center justify-center mx-auto p-3 shadow-sm">
-        <img 
-          src={getQrCodeUrl().replace('color=003d2b', 'color=000000')} // Black QR code
-          className="w-full h-full rounded-lg"
-          alt="Secure Identity QR"
-          loading="lazy"
-          onError={(e) => {
-            console.error('Failed to load QR image');
-            e.target.src = 'https://via.placeholder.com/160x160/000000/ffffff?text=QR+CODE';
-            e.target.className = 'w-full h-full rounded-lg bg-gray-50 flex items-center justify-center';
-          }}
-        />
-      </div>
-    
-    </div>
-    
-    {/* User Info */}
-    <div className="space-y-4">
-      <div>
-        <h3 className="text-xl font-bold text-gray-900 mb-2">
-          {user.name}
-        </h3>
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full">
-           <span className="text-xs font-bold text-green-500">
-            IDENTITY ACTIVE
-          </span>
-          <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-          <span className="text-xs font-bold text-green-500">
-            SECURE NODE
-          </span>
+    return (
+      <div className="text-center space-y-6 w-full mx-auto">
+        {/* QR Code Section */}
+        <div className="relative">
+          <div className="w-40 h-40 bg-white rounded-xl border border-gray-200 flex items-center justify-center mx-auto p-3 shadow-sm">
+            <img 
+              src={getQrCodeUrl().replace('color=003d2b', 'color=000000')} // Black QR code
+              className="w-full h-full rounded-lg"
+              alt="Secure Identity QR"
+              loading="lazy"
+              onError={(e) => {
+                console.error('Failed to load QR image');
+                e.target.src = 'https://via.placeholder.com/160x160/000000/ffffff?text=QR+CODE';
+                e.target.className = 'w-full h-full rounded-lg bg-gray-50 flex items-center justify-center';
+              }}
+            />
+          </div>
+        </div>
+        
+        {/* User Info */}
+        <div className="space-y-4">
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              {user.name}
+            </h3>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full">
+              <span className="text-xs font-bold text-green-500">
+                IDENTITY ACTIVE
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+              <span className="text-xs font-bold text-green-500">
+                SECURE NODE
+              </span>
+            </div>
+          </div>
+          
+          <div className="bg-gray-50 px-4 py-3 rounded-lg border border-gray-200">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
+              Authenticated CNIC
+            </p>
+            <p className="text-base font-mono font-bold text-gray-900">
+              {user.cnic || 'Not available'}
+            </p>
+          </div>
+          
+          {/* Logout */}
+          {onLogout && (
+            <div className="pt-4">
+              <button
+                onClick={() => {
+                  if (window.confirm('Are you sure you want to sign out?')) {
+                    onLogout();
+                  }
+                }}
+                className="text-sm text-gray-500 hover:text-red-600 transition-colors duration-200 font-medium"
+              >
+                Sign out
+              </button>
+            </div>
+          )}
         </div>
       </div>
-      
-      <div className="bg-gray-50 px-4 py-3 rounded-lg border border-gray-200">
-        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
-          Authenticated CNIC
-        </p>
-        <p className="text-base font-mono font-bold text-gray-900">
-          {user.cnic || 'Not available'}
-        </p>
-      </div>
-      
-      {/* Logout */}
-      {onLogout && (
-        <div className="pt-4">
-          <button
-            onClick={() => {
-              if (window.confirm('Are you sure you want to sign out?')) {
-                onLogout();
-              }
-            }}
-            className="text-sm text-gray-500 hover:text-red-600 transition-colors duration-200 font-medium"
-          >
-            Sign out
-          </button>
-        </div>
-      )}
-    </div>
-  </div>
-);
+    );
   }
 
   return (
@@ -246,6 +246,7 @@ const Auth = ({
               onBlur={() => setActiveField(null)}
               className={getInputClass('name')}
               required
+              style={{ color: '#111827' }}
             />
           </div>
           
@@ -261,6 +262,7 @@ const Auth = ({
               className={getInputClass('cnic')}
               maxLength="15"
               required
+              style={{ color: '#111827' }}
             />
           </div>
           
@@ -275,6 +277,7 @@ const Auth = ({
               onBlur={() => setActiveField(null)}
               className={getInputClass('address')}
               required
+              style={{ color: '#111827' }}
             />
           </div>
         </div>
@@ -293,6 +296,7 @@ const Auth = ({
             onBlur={() => setActiveField(null)}
             className={getInputClass('email')}
             required
+            style={{ color: '#111827' }}
           />
           <i className="fas fa-envelope absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
         </div>
@@ -308,6 +312,7 @@ const Auth = ({
             onBlur={() => setActiveField(null)}
             className={getInputClass('password')}
             required
+            style={{ color: '#111827' }}
           />
           <button
             type="button"
@@ -331,6 +336,7 @@ const Auth = ({
               onBlur={() => setActiveField(null)}
               className={getInputClass('confirmPassword')}
               required
+              style={{ color: '#111827' }}
             />
             <button
               type="button"
@@ -386,8 +392,6 @@ const Auth = ({
           <i className="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
         </span>
       </button>
-
-    
     </form>
   );
 };
@@ -435,15 +439,20 @@ export default Auth;
     animation: shake 0.5s ease-in-out;
   }
   
-  /* Password placeholder color */
-  ::placeholder {
-    color: #9ca3af; /* gray-400 for regular fields */
+  /* Force dark text for all inputs */
+  input {
+    color: #111827 !important; /* gray-900 - dark text */
   }
   
-  /* Specific style for password placeholder */
+  /* Placeholder colors - make them visible */
+  ::placeholder {
+    color: #6b7280 !important; /* gray-500 - medium gray */
+  }
+  
+  /* Specific style for password placeholder - slightly darker */
   input[type="password"]::placeholder,
   input[name="password"]::placeholder,
   input[name="confirmPassword"]::placeholder {
-    color: #6b7280; /* gray-500 for password fields */
+    color: #4b5563 !important; /* gray-600 - darker gray */
   }
 `}</style>

@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Hero from '../components/Hero';
 import LatestCollection from '@/components/LatestCollection';
+import SearchTabs from '@/components/SearchTabs';
 import { toast } from 'react-hot-toast';
 
 export default function Home() {
@@ -214,6 +215,10 @@ export default function Home() {
         setFormState={handleFormStateUpdate}
         formError={formError}
       />
+       {/* Search Tabs Section */}
+      <section className="relative z-20 -mt-20 px-10">
+       <SearchTabs />
+      </section>
   <LatestCollection />
     </main>
   );

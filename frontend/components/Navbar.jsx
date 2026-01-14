@@ -28,7 +28,8 @@ const Navbar = () => {
   };
 
   const navItems = [
-    { label: 'Discover', path: '/', icon: 'fa-compass' },
+    { label: 'Home', path: '/', icon: 'fa-compass' },
+    {label:'About',path:'/about'},
     { label: 'Marketplace', path: '/marketplace', icon: 'fa-store' },
     { label: 'My Wallet', path: '/wallet', icon: 'fa-wallet' },
   ];
@@ -82,18 +83,6 @@ const Navbar = () => {
                 {item.label}
               </Link>
             ))}
-            {user?.role === 'admin' && (
-              <Link 
-                href="/dashboard"
-                className={`text-xs lg:text-[11px] font-medium tracking-[0.15em] uppercase transition-colors ${
-                  pathname === '/dashboard' 
-                    ? 'text-[#003d2b] border-b-2 border-[#003d2b] pb-1' 
-                    : 'text-gray-400 hover:text-gray-900'
-                }`}
-              >
-                Admin Panel
-              </Link>
-            )}
           </nav>
 
           {/* User Actions - Desktop */}
@@ -181,24 +170,6 @@ const Navbar = () => {
                     )}
                   </Link>
                 ))}
-                
-                {user?.role === 'admin' && (
-                  <Link
-                    href="/dashboard"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${
-                      pathname === '/dashboard'
-                        ? 'bg-[#003d2b]/10 text-[#003d2b]'
-                        : 'hover:bg-gray-50 text-gray-700'
-                    }`}
-                  >
-                    <i className="fas fa-cog w-5 text-center"></i>
-                    <span className="font-medium">Admin Panel</span>
-                    {pathname === '/dashboard' && (
-                      <i className="fas fa-chevron-right ml-auto text-xs text-[#003d2b]"></i>
-                    )}
-                  </Link>
-                )}
 
                 {/* Mobile User Info */}
                 {user && (
