@@ -112,7 +112,7 @@ const Navbar = () => {
                   onClick={() => setIsAuthModalOpen(true)}
                   className="bg-gradient-to-r from-[#003d2b] to-[#006644] text-white font-medium text-xs lg:text-[11px] px-6 lg:px-8 py-3 lg:py-3.5 rounded-xl lg:rounded-2xl shadow-lg shadow-green-100/50 hover:scale-[1.02] transition-all duration-200 active:scale-95 uppercase tracking-[0.15em] lg:tracking-[0.2em]"
                 >
-                  Login
+                      Get Started
                 </button>
               </div>
             )}
@@ -141,7 +141,7 @@ const Navbar = () => {
                 className="bg-gradient-to-r from-[#003d2b] to-[#006644] text-white text-xs px-4 py-2.5 rounded-xl uppercase tracking-wide"
                 aria-label="Login"
               >
-                Login
+                Get Started
               </button>
             )}
           </div>

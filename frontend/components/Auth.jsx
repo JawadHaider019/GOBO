@@ -17,7 +17,6 @@ const Auth = ({
   const [formData, setFormData] = useState({
     name: '',
     cnic: '',
-    address: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -29,7 +28,6 @@ const Auth = ({
       setFormData({
         name: '',
         cnic: '',
-        address: '',
         email: '',
         password: '',
         confirmPassword: ''
@@ -74,7 +72,6 @@ const Auth = ({
     if (!isLoginMode) {
       authData.name = formData.name;
       authData.cnic = formData.cnic;
-      authData.address = formData.address;
       authData.confirmPassword = formData.confirmPassword;
     }
     
@@ -91,7 +88,7 @@ const Auth = ({
     setFormData({
       name: '',
       cnic: '',
-      address: '',
+     
       email: '',
       password: '',
       confirmPassword: ''
@@ -214,9 +211,7 @@ const Auth = ({
         <h4 className="text-xl font-black text-gray-900 tracking-tight mb-1">
           {isLoginMode ? 'Secure Login' : 'Activate Identity'}
         </h4>
-        <p className="text-sm text-gray-600 font-medium">
-          Pakistan Digital Gateway
-        </p>
+      
       </div>
 
       {/* Error Message */}
@@ -266,20 +261,7 @@ const Auth = ({
             />
           </div>
           
-          <div className="relative">
-            <input 
-              type="text" 
-              name="address"
-              placeholder="Residential Address" 
-              value={formData.address} 
-              onChange={handleInputChange}
-              onFocus={() => setActiveField('address')}
-              onBlur={() => setActiveField(null)}
-              className={getInputClass('address')}
-              required
-              style={{ color: '#111827' }}
-            />
-          </div>
+         
         </div>
       )}
       

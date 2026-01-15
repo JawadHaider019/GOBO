@@ -216,7 +216,7 @@ export default function Home() {
         formError={formError}
       />
        {/* Search Tabs Section */}
-      <section className="relative z-20 -mt-20 px-10">
+      <section className="relative z-20 -mt-10 px-10">
        <SearchTabs />
       </section>
   <LatestCollection />
