@@ -4,8 +4,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Hero from '../components/Hero';
-import LatestCollection from '@/components/LatestCollection';
 import SearchTabs from '@/components/SearchTabs';
+import LatestCollection from '@/components/LatestCollection';
+import HowItWorks from '@/components/HowItWorks';
+import BestSelling from '@/components/BestSelling';
 import { toast } from 'react-hot-toast';
 
 export default function Home() {
@@ -220,6 +222,8 @@ export default function Home() {
        <SearchTabs />
       </section>
   <LatestCollection />
+  <HowItWorks />
+    <BestSelling />
     </main>
   );
 }
