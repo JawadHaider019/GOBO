@@ -1,233 +1,131 @@
 "use client";
 
-import { useState, useCallback } from 'react';
-import Auth from './Auth';
-import { useApp } from '@/context/AppContext';
+import { useState, useEffect, useCallback } from 'react';
 
 const Hero = () => {
-  const { user, login, logout } = useApp();
-  const [isAuthLoading, setIsAuthLoading] = useState(false);
-  const [authError, setAuthError] = useState('');
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [tempUser, setTempUser] = useState(null);
+  // Slider state
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Handle authentication
-  const handleAuth = useCallback(async (authData) => {
-    setIsAuthLoading(true);
-    setAuthError('');
-    setShowSuccess(false);
-    setTempUser(null);
-    
-    try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Validate form data
-      if (!authData.email || !authData.password) {
-        throw new Error('Email and password are required');
-      }
-      
-      if (!authData.isLogin) {
-        // Registration validation
-        if (!authData.name || !authData.cnic || !authData.address) {
-          throw new Error('All fields are required for registration');
-        }
-        
-        if (authData.password !== authData.confirmPassword) {
-          throw new Error('Passwords do not match');
-        }
-        
-        if (authData.password.length < 8) {
-          throw new Error('Password must be at least 8 characters');
-        }
-      }
-      
-      // Mock successful authentication
-      const mockUser = {
-        id: Date.now(),
-        name: authData.isLogin ? "Demo User" : authData.name,
-        email: authData.email,
-        cnic: authData.isLogin ? "42101-1234567-1" : authData.cnic,
-        role: authData.email.includes('admin') ? 'admin' : 'user',
-        address: authData.isLogin ? "Lahore, Pakistan" : authData.address,
-        joinedDate: new Date().toISOString(),
-        walletBalance: 5000,
-        bookingsCount: 12,
-        isVerified: true
-      };
-      
-      // Store temporary user
-      setTempUser(mockUser);
-      
-      // Show success animation
-      setShowSuccess(true);
-      
-      // Call success callback after delay
-      setTimeout(() => {
-        login(mockUser); // Use global login function from context
-        setShowSuccess(false);
-        setTempUser(null);
-      }, 1500);
-      
-    } catch (error) {
-      console.error('Authentication error:', error);
-      setAuthError(error.message || 'Authentication failed. Please try again.');
-    } finally {
-      setIsAuthLoading(false);
+  // Mobile and desktop optimized slides with navigation links
+  const slides = [
+    {
+      id: 1,
+      title: "Smart Events Access",
+      link: "/services#events",
+      mobileImage: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=800&h=1200",
+      desktopImage: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=1920&h=1080",
+      color: "bg-gradient-to-br from-green-900/30 to-emerald-700/20"
+    },
+    {
+      id: 2,
+      title: "Unified Transit Hub",
+      link: "/services#transport",
+      mobileImage: "14AGM.png ",
+      desktopImage: "14AG.jpg",
+      color: "bg-gradient-to-br from-blue-900/30 to-cyan-700/20"
+    },
+    {
+      id: 3,
+      title: "Community Amenities",
+      link: "/services#housing",
+      mobileImage: "https://images.unsplash.com/photo-1486406146926-c627a92fb1ab?auto=format&fit=crop&q=80&w=800&h=1200",
+      desktopImage: "/Safari-Basant.jpg",
+      color: "bg-gradient-to-br from-emerald-900/30 to-teal-700/20"
     }
-  }, [login]);
+  ];
+
+  // Auto slide every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [currentSlide, slides.length]);
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  }, [slides.length]);
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  }, [slides.length]);
+
+  const goToSlide = useCallback((index) => {
+    setCurrentSlide(index);
+  }, []);
 
   return (
-    <section className="relative h-auto w-full rounded-b-[3rem] md:rounded-b-[5rem] overflow-hidden bg-gradient-to-b from-[#003d2b] to-[#002219] text-white">
-      {/* Enhanced animated background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-15%] left-[-10%] w-[60%] h-[60%] bg-gradient-to-r from-green-500/20 to-emerald-400/20 rounded-full blur-[120px] animate-pulse"></div>
-        <div className="absolute bottom-[-15%] right-[-10%] w-[60%] h-[60%] bg-gradient-to-l from-emerald-400/20 to-cyan-300/20 rounded-full blur-[120px] animate-pulse delay-700"></div>
-      </div>
-
-      {/* Floating particles */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(10)].map((_, i) => (
+    <section className="relative h-[75vh] md:h-[90vh] w-full overflow-hidden -mt-16 md:-mt-20">
+      {/* Image Slider */}
+      <div className="relative h-full w-full">
+        {slides.map((slide, index) => (
           <div
-            key={i}
-            className="absolute w-[1px] h-[1px] bg-white/30 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `float ${3 + Math.random() * 4}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 2}s`,
-            }}
-          />
-        ))}
-      </div>
-      
-      {/* Background Decoration */}
-      <div className="absolute top-0 right-0 p-20 opacity-5 pointer-events-none rotate-12">
-        <i className="fas fa-ticket-alt text-[40rem]"></i>
-      </div>
-      
-      <div className="relative z-10 w-full grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 px-4 md:px-8 lg:px-12 py-8 md:py-12">
-        {/* Left Content - Optimized */}
-        <div className="flex flex-col justify-center space-y-6 md:space-y-8">
-          {/* Badge */}
-          <div className="inline-flex w-fit items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-            <span className="text-xs font-bold uppercase tracking-[0.2em]">
-              One platform. All bookings.
-            </span>
-          </div>
-          
-          {/* Main headline */}
-          <div className="space-y-3">
-            <h1 className="text-7xl font-black leading-[0.9] tracking-tight">
-              The<br/>
-              Unified<br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-emerald-200 to-cyan-200 animate-gradient">
-                System.
-              </span>
-            </h1>
-          </div>
-          
-          {/* Description */}
-          <div className="space-y-4">
-            <p className="text-lg md:text-xl lg:text-2xl text-gray-100 max-w-md leading-relaxed">
-              "Eliminate ticket fraud with Pakistan's first CNIC-linked booking ecosystem."
-            </p>
-          </div>
-
-         
-        </div>
-
-        {/* Right Content - Auth Card */}
-        <div className="flex items-center justify-center">
-          <div className="relative w-full max-w-sm">
-            {/* Card glow */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-green-500/10 to-emerald-400/10 rounded-[2rem] blur-xl opacity-30"></div>
+            key={slide.id}
+            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+              index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+            }`}
+          >
+            {/* Background images with responsive sizes */}
+            <picture>
+              <source
+                media="(min-width: 768px)"
+                srcSet={slide.desktopImage}
+              />
+              <img
+                src={slide.mobileImage}
+                alt={slide.title}
+                className="absolute inset-0 w-full h-full object-cover"
+                loading="eager"
+              />
+            </picture>
             
-            {/* Main card */}
-            <div className="relative bg-white rounded-4xl shadow-2xl shadow-black/20 border border-white/20 overflow-hidden">
-              {/* Card body */}
-              <div className="px-6 py-12">
-                {/* Success overlay - Only show when not logged in yet */}
-                {showSuccess && !user && (
-                  <div className="absolute inset-0 bg-white/95 backdrop-blur-sm rounded-2xl flex items-center justify-center z-20 animate-fadeIn">
-                    <div className="text-center space-y-4 p-6">
-                      <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-xl flex items-center justify-center mx-auto text-[#003d2b] text-2xl animate-bounce">
-                        <i className="fas fa-check-circle"></i>
-                      </div>
-                      <div>
-                        <h4 className="text-xl font-black text-[#003d2b] mb-1">
-                          Success!
-                        </h4>
-                        <p className="text-gray-600 text-sm">
-                          Welcome to Go Booking
-                        </p>
-                      </div>
-                      <div className="w-20 h-1 bg-gradient-to-r from-green-400 to-emerald-300 rounded-full mx-auto overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-green-500 to-emerald-400 rounded-full animate-loading-bar"></div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Auth Component - Pass the user to show QR */}
-                <div className={showSuccess && !user ? 'opacity-30 pointer-events-none transition-opacity duration-300' : 'w-full'}>
-                  <Auth 
-                    user={user || tempUser}  
-                    onAuth={handleAuth}
-                    isLoading={isAuthLoading}
-                    error={authError}
-                    onLogout={logout}
-                    showQR={true}
-                  />
-                </div>
-              </div>
-            </div>
+            {/* Gradient overlay */}
+            <div className={`absolute inset-0 ${slide.color}`}></div>
+            
+            {/* Navigation Link - Full screen clickable area */}
+            <a
+              href={slide.link}
+              className="absolute inset-0 z-20 cursor-pointer"
+              aria-label={`Navigate to ${slide.title}`}
+            />
+            
           </div>
+        ))}
+        
+        {/* Navigation arrows */}
+        <button
+          onClick={prevSlide}
+          className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 bg-black/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/50 transition-all duration-300 group border border-white/20"
+          aria-label="Previous slide"
+        >
+          <i className="fas fa-chevron-left text-white text-base md:text-xl group-hover:scale-110 transition-transform"></i>
+        </button>
+        
+        <button
+          onClick={nextSlide}
+          className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 bg-black/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/50 transition-all duration-300 group border border-white/20"
+          aria-label="Next slide"
+        >
+          <i className="fas fa-chevron-right text-white text-base md:text-xl group-hover:scale-110 transition-transform"></i>
+        </button>
+        
+        {/* Slide dots */}
+        <div className="absolute  bottom-12 right-4 md:right-8 flex items-center gap-1.5 md:gap-2 z-30">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full transition-all duration-300 border border-white/30 ${
+                index === currentSlide 
+                  ? 'bg-white w-5 md:w-6 shadow-lg' 
+                  : 'bg-white/40 hover:bg-white/60'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
-
-      {/* Add CSS animations and styles */}
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) translateX(0px); }
-          50% { transform: translateY(-10px) translateX(5px); }
-        }
-        
-        @keyframes gradient {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-        
-        .animate-gradient {
-          background-size: 200% 200%;
-          animation: gradient 3s ease infinite;
-        }
-        
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-        
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-        
-        @keyframes loading-bar {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-        
-        .animate-loading-bar {
-          animation: loading-bar 1.5s ease-in-out infinite;
-        }
-      `}</style>
     </section>
   );
 };

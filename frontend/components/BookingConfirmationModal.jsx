@@ -161,24 +161,7 @@ const BookingConfirmationModal = ({
             Continue Exploring
           </button>
           
-          {/* Additional Info */}
-          <div className="pt-4 border-t border-white/10">
-            <div className="flex items-center justify-center gap-4 text-xs text-gray-500">
-              <div className="flex items-center gap-1">
-                <i className="fas fa-shield-alt text-green-400"></i>
-                <span>Secured</span>
-              </div>
-              <div className="w-1 h-1 bg-gray-600 rounded-full"></div>
-              <div className="flex items-center gap-1">
-                <i className="fas fa-mobile-alt text-green-400"></i>
-                <span>Digital Ticket</span>
-              </div>
-            </div>
-            <p className="text-center text-xs text-gray-600 mt-4">
-              Your booking is confirmed and saved securely in your digital wallet.
-              You can access it anytime.
-            </p>
-          </div>
+         
         </div>
 
         {/* Confetti Animation (CSS based) */}

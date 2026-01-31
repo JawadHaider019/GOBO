@@ -3,15 +3,15 @@ import Link from 'next/link'
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-gradient-to-b from-[#003d2b] to-[#002219] text-white pt-20 pb-12 px-6 md:px-12 lg:px-20 overflow-hidden relative">
+    <footer className="w-full bg-gradient-to-b from-[#003d2b] to-[#002219] text-white pt-20 pb-12 px-6 md:px-12 lg:px-20 overflow-hidden relative rounded-t-[4rem]">
       {/* Background Decoration */}
       <div className="absolute top-0 right-0 p-20 opacity-5 pointer-events-none rotate-12">
          <i className="fas fa-ticket-alt text-[20rem]"></i>
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 relative z-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 relative ">
         {/* Company Info */}
-        <div className="space-y-6">
+        <div className="space-y-2">
           <Link href="/" className="inline-block p-2 hover:opacity-80 transition-opacity">
             <div className="relative w-20 h-20">
               {/* Fallback if image doesn't load */}
@@ -32,7 +32,7 @@ const Footer = () => {
           </Link>
 
           <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-            Pakistan's first unified booking ecosystem designed to eliminate fraud and provide a seamless digital identity for all experiences.
+          Pakistan’s digital booking and ticket management platform for everyday experiences.
           </p>
           <div className="flex gap-3 pt-2">
             {['facebook', 'instagram', 'twitter', 'linkedin'].map(soc => (
@@ -95,7 +95,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Section */}
-      <div className="max-w-7xl mx-auto pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
+      <div className="max-w-7xl mx-auto pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 relative ">
         <p className="text-[10px] font-medium text-gray-400 uppercase tracking-widest text-center md:text-left">
           © {new Date().getFullYear()} GO BOOKING PAKISTAN • UNIFIED TICKETING SYSTEM
         </p>

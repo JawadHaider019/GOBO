@@ -209,7 +209,7 @@ const Auth = ({
           <i className={`fas ${isLoginMode ? 'fa-fingerprint' : 'fa-id-card'}`}></i>
         </div>
         <h4 className="text-xl font-black text-gray-900 tracking-tight mb-1">
-          {isLoginMode ? 'Secure Login' : 'Activate Identity'}
+          {isLoginMode ? 'Login' : 'Activate Identity'}
         </h4>
       
       </div>

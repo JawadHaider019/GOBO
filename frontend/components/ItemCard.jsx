@@ -1,16 +1,15 @@
+// ItemCard.jsx
 "use client";
 
+import { useRouter } from 'next/navigation';
+
 const ItemCard = ({ 
-  item,
-  onBookNow,
-  onViewDetails,
-  isBooked = false,
-  isLoading = false
+  item
 }) => {
+  const router = useRouter();
   const {
     id,
     title,
-    description,
     price,
     discountPrice,
     image,
@@ -19,7 +18,6 @@ const ItemCard = ({
     time,
     category,
     availableSeats,
-    totalSeats,
     rating,
     isFree = false
   } = item;
@@ -29,8 +27,16 @@ const ItemCard = ({
     ? Math.round(((price - discountPrice) / price) * 100)
     : 0;
 
+  // Navigate to event detail page
+  const handleCardClick = () => {
+    router.push(`/event/${id}`);
+  };
+
   return (
-    <div className="bg-black group relative h-[350px] md:h-[450px] rounded-[2.5rem] md:rounded-[3rem] overflow-hidden border border-white/10 bg-gray-900">
+    <div 
+      className="bg-black group relative h-[350px] md:h-[450px] rounded-[2.5rem] md:rounded-[3rem] overflow-hidden border border-white/10 bg-gray-900 cursor-pointer hover:border-white/30 transition-all duration-300"
+      onClick={handleCardClick}
+    >
       
       {/* Background Image */}
       <img 
@@ -44,7 +50,7 @@ const ItemCard = ({
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
       
       {/* Content Overlay */}
-      <div className="absolute inset-0 p-6 md:p-10 flex flex-col justify-end z-10">
+      <div className="absolute inset-0 py-8 px-5  flex flex-col justify-end z-10">
         
         {/* Category Badge */}
         <div className="flex gap-2 mb-3">
@@ -61,10 +67,7 @@ const ItemCard = ({
         </div>
         
         {/* Title */}
-        <h4 
-          className="text-2xl md:text-3xl font-black leading-tight mb-2 tracking-tighter text-white cursor-pointer"
-          onClick={() => onViewDetails && onViewDetails(id)}
-        >
+        <h4 className="text-2xl md:text-3xl font-black leading-tight mb-2 tracking-tighter text-white">
           {title}
         </h4>
         
@@ -75,30 +78,36 @@ const ItemCard = ({
           {time && ` • ${time}`}
         </p>
         
-        {/* Price */}
+        {/* Price - Updated to PKR */}
         <div className="mb-4">
           {isFree ? (
             <p className="font-black text-2xl tracking-tighter text-white">FREE</p>
           ) : isDiscounted ? (
             <div className="flex items-center gap-3">
               <span className="font-black text-2xl tracking-tighter text-white">
-                ${discountPrice}
+                PKR {discountPrice?.toLocaleString() || price?.toLocaleString()}
               </span>
-              <span className="text-lg text-gray-400 line-through">
-                ${price}
-              </span>
-              <span className="bg-red-500/80 text-white px-3 py-1 rounded-full text-[9px] font-black tracking-widest uppercase">
-                {discountPercentage}% off
-              </span>
+              {discountPrice && discountPrice < price && (
+                <>
+                  <span className="text-lg text-gray-400 line-through">
+                    PKR {price?.toLocaleString()}
+                  </span>
+                  <span className="bg-red-500/80 text-white px-3 py-1 rounded-full text-[9px] font-black tracking-widest uppercase">
+                    {discountPercentage}% off
+                  </span>
+                </>
+              )}
             </div>
           ) : (
-            <p className="font-black text-2xl tracking-tighter text-white">${price}</p>
+            <p className="font-black text-2xl tracking-tighter text-white">
+              PKR {price?.toLocaleString()}
+            </p>
           )}
           <p className="text-[10px] text-gray-400 mt-1 font-medium">per person</p>
         </div>
         
         {/* Seats & Rating */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <i className="fas fa-users text-gray-400 text-xs"></i>
             <span className={`text-xs font-black ${availableSeats < 10 ? 'text-red-400' : 'text-green-400'}`}>
@@ -112,42 +121,6 @@ const ItemCard = ({
             </div>
           )}
         </div>
-        
-        {/* Action Button */}
-        <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            if (onBookNow && availableSeats > 0) {
-              onBookNow(id);
-            }
-          }}
-          disabled={isLoading || availableSeats === 0 || isBooked}
-          className={`w-full backdrop-blur-md text-white font-black py-3 md:py-4 rounded-2xl text-[9px] md:text-[10px] uppercase tracking-widest border transition
-            ${isBooked 
-              ? 'bg-green-500/20 border-green-500/30 text-green-400 cursor-default'
-              : availableSeats === 0
-                ? 'bg-gray-800/50 border-gray-700/50 text-gray-500 cursor-not-allowed'
-                : isLoading
-                  ? 'bg-gray-700/50 border-gray-600/50'
-                  : 'bg-white/10 border-white/20 hover:bg-white hover:text-black'
-            }`}
-        >
-          {isBooked ? (
-            <>
-              <i className="fas fa-check-circle mr-2"></i>
-              SECURED
-            </>
-          ) : isLoading ? (
-            <>
-              <i className="fas fa-spinner fa-spin mr-2"></i>
-              PROCESSING
-            </>
-          ) : availableSeats === 0 ? (
-            'SOLD OUT'
-          ) : (
-            'BOOK NOW'
-          )}
-        </button>
       </div>
     </div>
   );

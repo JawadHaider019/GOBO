@@ -30,7 +30,9 @@ const Navbar = () => {
   const navItems = [
     { label: 'Home', path: '/', icon: 'fa-compass' },
     {label:'About',path:'/about'},
+      { label: 'Services', path: '/services', icon: 'fa-wallet' },
     { label: 'Marketplace', path: '/marketplace', icon: 'fa-store' },
+        { label: 'Blogs', path: '/blogs', icon: 'fa-store' },
     { label: 'My Wallet', path: '/wallet', icon: 'fa-wallet' },
   ];
 

@@ -8,7 +8,10 @@ import SearchTabs from '@/components/SearchTabs';
 import LatestCollection from '@/components/LatestCollection';
 import HowItWorks from '@/components/HowItWorks';
 import BestSelling from '@/components/BestSelling';
+import Stats from '@/components/Stats';
 import { toast } from 'react-hot-toast';
+import FAQSection from '@/components/FAQSection';
+import CTA from '@/components/CTA';
 
 export default function Home() {
   const [user, setUser] = useState(null);
@@ -218,12 +221,15 @@ export default function Home() {
         formError={formError}
       />
        {/* Search Tabs Section */}
-      <section className="relative z-20 -mt-10 px-10">
-       <SearchTabs />
-      </section>
+    <section className="relative z-20 -mt-10 px-4 md:px-8 lg:px-10">
+  <SearchTabs />
+</section>
   <LatestCollection />
   <HowItWorks />
     <BestSelling />
+    <Stats/>
+    <FAQSection/>
+      <CTA/>
     </main>
   );
 }
