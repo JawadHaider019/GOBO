@@ -28,7 +28,12 @@ const Dashboard = () => {
     phoneNumber: '',
     isDefault: false
   });
-
+const tabs = [
+  { id: 'tickets', label: 'My Tickets', icon: 'fas fa-ticket-alt' },
+  { id: 'payments', label: 'Payments', icon: 'fas fa-credit-card' },
+  { id: 'transactions', label: 'Transactions', icon: 'fas fa-history' },
+  { id: 'profile', label: 'Profile', icon: 'fas fa-user' },
+];
   // Deposit form state
   const [depositForm, setDepositForm] = useState({
     amount: '',
@@ -50,6 +55,10 @@ const Dashboard = () => {
   const [showChangeEmailModal, setShowChangeEmailModal] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // Find current active tab
+  const activeTabData = tabs.find(tab => tab.id === activeTab);
 
   // Security form states
   const [emailForm, setEmailForm] = useState({
@@ -475,55 +484,65 @@ const Dashboard = () => {
       </div>
 
       {/* Tabs Navigation */}
-      <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] border border-gray-100 shadow-sm p-2">
-        <div className="flex overflow-x-auto">
-         
+
+    <div className="space-y-4">
+      {/* Mobile Dropdown (hidden on md and above) */}
+      <div className="md:hidden">
+        <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm">
           <button
-            onClick={() => setActiveTab('tickets')}
-            className={`flex-1 min-w-[120px] py-4 md:py-5 rounded-[1.5rem] md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all ${
-              activeTab === 'tickets'
-                ? 'bg-[#003d2b] text-white shadow-lg'
-                : 'text-gray-400 hover:text-gray-700'
-            }`}
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="w-full flex items-center justify-between p-4 rounded-[2rem] bg-[#003d2b] text-white font-black text-xs uppercase tracking-widest"
           >
-            <i className="fas fa-ticket-alt mr-2"></i>
-            My Tickets
+            <div className="flex items-center">
+              <i className={`${activeTabData.icon} mr-3`}></i>
+              {activeTabData.label}
+            </div>
+            <i className={`fas fa-chevron-${isDropdownOpen ? 'up' : 'down'} text-sm transition-transform`}></i>
           </button>
-          <button
-            onClick={() => setActiveTab('payments')}
-            className={`flex-1 min-w-[120px] py-4 md:py-5 rounded-[1.5rem] md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all ${
-              activeTab === 'payments'
-                ? 'bg-[#003d2b] text-white shadow-lg'
-                : 'text-gray-400 hover:text-gray-700'
-            }`}
-          >
-            <i className="fas fa-credit-card mr-2"></i>
-            Payments
-          </button>
-          <button
-            onClick={() => setActiveTab('transactions')}
-            className={`flex-1 min-w-[120px] py-4 md:py-5 rounded-[1.5rem] md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all ${
-              activeTab === 'transactions'
-                ? 'bg-[#003d2b] text-white shadow-lg'
-                : 'text-gray-400 hover:text-gray-700'
-            }`}
-          >
-            <i className="fas fa-history mr-2"></i>
-            Transactions
-          </button>
-          <button
-            onClick={() => setActiveTab('profile')}
-            className={`flex-1 min-w-[120px] py-4 md:py-5 rounded-[1.5rem] md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all ${
-              activeTab === 'profile'
-                ? 'bg-[#003d2b] text-white shadow-lg'
-                : 'text-gray-400 hover:text-gray-700'
-            }`}
-          >
-            <i className="fas fa-user mr-2"></i>
-            Profile
-          </button>
+
+          {/* Dropdown Menu */}
+          {isDropdownOpen && (
+            <div className="absolute z-50 w-full max-w-[calc(100%-2rem)] mt-2 bg-white rounded-[1.5rem] border border-gray-100 shadow-xl overflow-hidden animate-in slide-in-from-top-2 duration-200">
+              {tabs
+                .filter(tab => tab.id !== activeTab)
+                .map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => {
+                      setActiveTab(tab.id);
+                      setIsDropdownOpen(false);
+                    }}
+                    className="w-full flex items-center p-4 text-left font-black text-[10px] uppercase tracking-widest text-gray-400 hover:bg-gray-50 hover:text-gray-700 transition-all border-b border-gray-100 last:border-b-0"
+                  >
+                    <i className={`${tab.icon} mr-3 text-sm`}></i>
+                    {tab.label}
+                  </button>
+                ))}
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Desktop Tabs Navigation (hidden on mobile) */}
+      <div className="hidden md:block bg-white rounded-[2.5rem] border border-gray-100 shadow-sm p-2">
+        <div className="flex overflow-x-auto">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex-1 min-w-[120px] py-5 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${
+                activeTab === tab.id
+                  ? 'bg-[#003d2b] text-white shadow-lg'
+                  : 'text-gray-400 hover:text-gray-700'
+              }`}
+            >
+              <i className={`${tab.icon} mr-2`}></i>
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
 
       {/* Wallet Balance Card - Show on overview and payments tabs */}
       {( activeTab === 'payments') && (

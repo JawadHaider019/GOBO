@@ -150,7 +150,7 @@ const BookingConfirmationModal = ({
           >
             <span className="flex items-center justify-center gap-2">
               <i className="fas fa-wallet group-hover:animate-bounce"></i>
-              View in Wallet
+              View Tikcet
             </span>
           </button>
           

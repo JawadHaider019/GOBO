@@ -1,10 +1,10 @@
-// app/event/[id]/page.jsx
 "use client";
 
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
 import BookingConfirmationModal from '@/components/BookingConfirmationModal';
+import AuthModal from '@/components/AuthModal'; // Import AuthModal
 
 const EventDetail = () => {
   const router = useRouter();
@@ -13,6 +13,7 @@ const EventDetail = () => {
   const { listings, user, balance, bookTicket } = useApp();
   const [item, setItem] = useState(null);
   const [showBookingConfirm, setShowBookingConfirm] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false); // New state for auth modal
   const [showBalanceError, setShowBalanceError] = useState(false);
   const [isBooking, setIsBooking] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -30,7 +31,8 @@ const EventDetail = () => {
 
   const handleBookInitiate = () => {
     if (!user) {
-      router.push('/login');
+      // Instead of redirecting, show the auth modal
+      setShowAuthModal(true);
       return;
     }
     
@@ -75,12 +77,19 @@ const EventDetail = () => {
 
   const handleViewWallet = () => {
     setSuccess(false);
-    router.push('/wallet');
+    router.push('/dashboard');
   };
 
   const handleContinueExploring = () => {
     setSuccess(false);
     router.push('/');
+  };
+
+  // Handle successful authentication
+  const handleAuthSuccess = (userData) => {
+    console.log('User authenticated:', userData);
+    // AuthModal will automatically close on success
+    // The user can now proceed with booking
   };
 
   if (!item) return (
@@ -97,6 +106,13 @@ const EventDetail = () => {
 
   return (
     <div className="min-h-screen bg-[#fcfdfd] pb-32">
+      {/* Auth Modal for Login/Signup */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onAuthSuccess={handleAuthSuccess}
+      />
+
       {/* Booking Confirmation Modal */}
       <BookingConfirmationModal
         isOpen={showBookingConfirm}
@@ -141,7 +157,7 @@ const EventDetail = () => {
                  ? 'Your bus ticket has been secured and added to your wallet.' 
                  : 'Your accommodation has been booked and added to your wallet.'}
              </p>
-             <button onClick={() => router.push('/wallet')} className="w-full bg-[#003d2b] text-white font-black py-5 rounded-2xl shadow-xl uppercase tracking-widest text-[10px]">View in Wallet</button>
+             <button onClick={() => router.push('/dashboard')} className="w-full bg-[#003d2b] text-white font-black py-5 rounded-2xl shadow-xl uppercase tracking-widest text-[10px]">View Tikcet</button>
           </div>
         </div>
       )}
