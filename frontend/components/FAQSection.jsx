@@ -22,14 +22,11 @@ const FAQSection = () => {
       question: "Do I need to create an account to book tickets?",
       answer: "Yes. Creating an account is required to manage bookings, access tickets, and ensure secure usage of digital tickets."
     },
-    {
-      question: "Why do you ask for an ID card number during registration?",
-      answer: "We ask for an ID card number only once during registration to ensure that each user can create only one account and to reduce misuse or duplicate accounts."
-    },
-    {
-      question: "Is my ID card number safe?",
-      answer: "Yes. Your ID card number is used only for account uniqueness and is securely stored."
-    },
+   {
+  question: "Why is ID no. needed during booking?",
+  answer: "We verify ID during booking confirmation to match the ticket purchaser with the actual user. This prevents fraud, ticket scalping, and unauthorized resales. It ensures that only the legitimate ticket holder can use the booking, making the platform more secure for everyone."
+},
+   
     {
       question: "How do QR-based tickets work?",
       answer: "Each booking generates a unique QR code. The QR code can be scanned only once. Duplicate or reused tickets are automatically rejected. This helps prevent ticket fraud and unauthorized access."

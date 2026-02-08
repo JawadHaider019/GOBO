@@ -208,7 +208,7 @@ const [isSticky, setIsSticky] = useState(false);
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Search Tabs */}
-        <div className={`bg-white ${isSticky ? 'sticky top-0 z-50 shadow-md' : ''}`}>
+        <div className={`bg-white ${isSticky ? 'sticky top-0 z-50 ' : ''}`}>
         <div className="max-w-8xl mx-auto px-4 md:px-6">
           <SearchTabs 
             onSearchResults={handleSearchResults}
@@ -225,7 +225,7 @@ const [isSticky, setIsSticky] = useState(false);
            
           
             {/* Price Filter */}
-            <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+            <div className="bg-white rounded-xl p-4 border border-gray-100 ">
               <h3 className="font-bold text-gray-900 mb-3 text-sm">Price Range</h3>
               <div className="space-y-1">
                 {priceRanges.map(range => (
@@ -340,7 +340,7 @@ const [isSticky, setIsSticky] = useState(false);
           {/* Main Content - 75% width */}
           <div className="flex-1">
             {/* Header */}
-            <div className="bg-white rounded-xl p-4 mb-4 border border-gray-100 shadow-sm">
+            <div className="bg-white rounded-xl p-4 mb-4 border border-gray-100 ">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                 <div>
                   <h2 className="text-xl font-bold text-gray-900 mb-1">

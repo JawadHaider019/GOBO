@@ -12,11 +12,11 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 relative ">
         {/* Company Info */}
         <div className="space-y-2">
-          <Link href="/" className="inline-block p-2 hover:opacity-80 transition-opacity">
+          <Link href="/" className="inline-block p-2 ">
             <div className="relative w-20 h-20">
               {/* Fallback if image doesn't load */}
               <img 
-                src="/logo.png" 
+                src="/logowhite.png" 
                 alt="Go Booking Logo" 
                 className="w-full h-full object-contain"
                 onError={(e) => {

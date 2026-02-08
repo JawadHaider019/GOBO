@@ -160,8 +160,7 @@ const Navbar = () => {
                   onClick={() => setIsAuthModalOpen(true)}
                   className="bg-gradient-to-r from-[#003d2b] to-[#006644] text-white font-medium text-xs lg:text-[11px] px-6 lg:px-8 py-3 lg:py-3.5 rounded-xl lg:rounded-2xl shadow-lg shadow-green-100/50 hover:scale-[1.02] transition-all duration-200 active:scale-95 uppercase tracking-[0.15em] lg:tracking-[0.2em] flex items-center gap-2"
                 >
-                  <i className="fas fa-rocket text-xs"></i>
-                  Get Started
+                Sign In / Sign Up
                 </button>
               </div>
             )}
@@ -187,7 +186,7 @@ const Navbar = () => {
                 aria-label="Login"
               >
                 <i className="fas fa-rocket text-xs"></i>
-                Get Started
+                Sign In / Sign Up
               </button>
             )}
           </div>

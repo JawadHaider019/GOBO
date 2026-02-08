@@ -16,7 +16,7 @@ const Auth = ({
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
-    cnic: '',
+    phone: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -27,7 +27,7 @@ const Auth = ({
     if (!user) {
       setFormData({
         name: '',
-        cnic: '',
+        phone: '',
         email: '',
         password: '',
         confirmPassword: ''
@@ -39,17 +39,17 @@ const Auth = ({
     }
   }, [user]);
 
-  // Auto-format CNIC as user types
-  const formatCNIC = (value) => {
+  // Auto-format Phone as user types
+  const formatPhone = (value) => {
     const numbers = value.replace(/\D/g, '');
-    if (numbers.length <= 5) return numbers;
-    if (numbers.length <= 12) return `${numbers.slice(0, 5)}-${numbers.slice(5)}`;
-    return `${numbers.slice(0, 5)}-${numbers.slice(5, 12)}-${numbers.slice(12, 13)}`;
+    if (numbers.length <= 4) return numbers;
+    if (numbers.length <= 11) return `${numbers.slice(0, 4)}-${numbers.slice(4)}`;
+    return `${numbers.slice(0, 4)}-${numbers.slice(4, 11)}`;
   };
 
-  const handleCnicChange = useCallback((e) => {
-    const formatted = formatCNIC(e.target.value);
-    handleInputChange({ target: { name: 'cnic', value: formatted } });
+  const handlePhoneChange = useCallback((e) => {
+    const formatted = formatPhone(e.target.value);
+    handleInputChange({ target: { name: 'phone', value: formatted } });
   }, []);
 
   const handleInputChange = (e) => {
@@ -71,7 +71,7 @@ const Auth = ({
     
     if (!isLoginMode) {
       authData.name = formData.name;
-      authData.cnic = formData.cnic;
+      authData.phone = formData.phone;
       authData.confirmPassword = formData.confirmPassword;
     }
     
@@ -87,8 +87,7 @@ const Auth = ({
     setShowConfirmPassword(false);
     setFormData({
       name: '',
-      cnic: '',
-     
+      phone: '',
       email: '',
       password: '',
       confirmPassword: ''
@@ -118,40 +117,14 @@ const Auth = ({
     return `${baseClass} ${placeholderClass} border-gray-300 hover:border-gray-400 focus:border-[#003d2b] focus:ring-2 focus:ring-[#003d2b]/20`;
   };
 
-  // Get QR code URL with fallback - SIMPLIFIED
-  const getQrCodeUrl = () => {
-    console.log('Generating QR code for user:', user);
-    
-    if (!user?.name || !user?.cnic) {
-      console.log('Missing user data for QR');
-      return 'https://via.placeholder.com/140x140/003d2b/ffffff?text=QR+Loading';
-    }
-    
-    const encodedData = encodeURIComponent(`GOBOOKING:${user.name}|CNIC:${user.cnic}|ID:${user.id || Date.now()}`);
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodedData}&format=svg&margin=8&color=003d2b&bgcolor=ffffff`;
-    console.log('QR URL generated:', qrUrl);
-    
-    return qrUrl;
-  };
-
-  // Show logged-in state with QR code
+  // Show logged-in state
   if (user) {
     return (
       <div className="text-center space-y-6 w-full mx-auto">
-        {/* QR Code Section */}
+        {/* User Profile Icon - Replaced QR Code */}
         <div className="relative">
-          <div className="w-40 h-40 bg-white rounded-xl border border-gray-200 flex items-center justify-center mx-auto p-3 shadow-sm">
-            <img 
-              src={getQrCodeUrl().replace('color=003d2b', 'color=000000')} // Black QR code
-              className="w-full h-full rounded-lg"
-              alt="Secure Identity QR"
-              loading="lazy"
-              onError={(e) => {
-                console.error('Failed to load QR image');
-                e.target.src = 'https://via.placeholder.com/160x160/000000/ffffff?text=QR+CODE';
-                e.target.className = 'w-full h-full rounded-lg bg-gray-50 flex items-center justify-center';
-              }}
-            />
+          <div className="w-40 h-40 bg-gradient-to-br from-green-100 to-emerald-100 rounded-xl border border-gray-200 flex items-center justify-center mx-auto p-3 shadow-sm">
+            <i className="fas fa-user-check text-5xl text-[#003d2b]"></i>
           </div>
         </div>
         
@@ -174,10 +147,19 @@ const Auth = ({
           
           <div className="bg-gray-50 px-4 py-3 rounded-lg border border-gray-200">
             <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
-              Authenticated CNIC
+              Email Address
             </p>
-            <p className="text-base font-mono font-bold text-gray-900">
-              {user.cnic || 'Not available'}
+            <p className="text-base font-medium text-gray-900">
+              {user.email || 'Not available'}
+            </p>
+          </div>
+
+          <div className="bg-gray-50 px-4 py-3 rounded-lg border border-gray-200">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
+              Phone Number
+            </p>
+            <p className="text-base font-medium text-gray-900">
+              {user.phone || 'Not available'}
             </p>
           </div>
           
@@ -205,11 +187,12 @@ const Auth = ({
     <form onSubmit={handleSubmit} className="w-full space-y-4 max-w-sm mx-auto">
       {/* Header */}
       <div className="text-center mb-6">
+   
         <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-4 text-[#003d2b] text-2xl shadow-md">
-          <i className={`fas ${isLoginMode ? 'fa-fingerprint' : 'fa-id-card'}`}></i>
+          <i className={`fas ${isLoginMode ? 'fa-sign-out-alt' : 'fa-id-card'}`}></i>
         </div>
         <h4 className="text-xl font-black text-gray-900 tracking-tight mb-1">
-          {isLoginMode ? 'Login' : 'Activate Identity'}
+          {isLoginMode ? 'Login' : 'Sign Up'}
         </h4>
       
       </div>
@@ -234,7 +217,7 @@ const Auth = ({
             <input 
               type="text" 
               name="name"
-              placeholder="Full Name as per CNIC" 
+              placeholder="Full Name" 
               value={formData.name} 
               onChange={handleInputChange}
               onFocus={() => setActiveField('name')}
@@ -248,20 +231,18 @@ const Auth = ({
           <div className="relative">
             <input 
               type="text" 
-              name="cnic"
-              placeholder="CNIC Number (42101-XXXXXXX-X)" 
-              value={formData.cnic} 
-              onChange={handleCnicChange}
-              onFocus={() => setActiveField('cnic')}
+              name="phone"
+              placeholder="Phone Number " 
+              value={formData.phone} 
+              onChange={handlePhoneChange}
+              onFocus={() => setActiveField('phone')}
               onBlur={() => setActiveField(null)}
-              className={getInputClass('cnic')}
-              maxLength="15"
+              className={getInputClass('phone')}
+              maxLength="12"
               required
               style={{ color: '#111827' }}
             />
           </div>
-          
-         
         </div>
       )}
       
@@ -280,7 +261,7 @@ const Auth = ({
             required
             style={{ color: '#111827' }}
           />
-          <i className="fas fa-envelope absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+      
         </div>
         
         <div className="relative">
@@ -341,12 +322,12 @@ const Auth = ({
           {isLoading ? (
             <>
               <i className="fas fa-spinner fa-spin text-xs"></i>
-              {isLoginMode ? 'AUTHENTICATING...' : 'REGISTERING...'}
+              {isLoginMode ? 'SIGNING IN...' : 'CREATING ACCOUNT...'}
             </>
           ) : (
             <>
               <i className="fas fa-shield-alt text-xs"></i>
-              {isLoginMode ? 'AUTHENTICATE ACCESS' : 'ACTIVATE IDENTITY'}
+              {isLoginMode ? 'SIGN IN' : 'SIGN UP'}
             </>
           )}
         </span>
@@ -363,12 +344,12 @@ const Auth = ({
           {isLoginMode ? (
             <>
               <i className="fas fa-user-plus text-xs"></i>
-              Don't have an account? Register
+              Don't have an account? Sign Up
             </>
           ) : (
             <>
               <i className="fas fa-sign-in-alt text-xs"></i>
-              Already have an account? Login
+              Already have an account? Sign In
             </>
           )}
           <i className="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>

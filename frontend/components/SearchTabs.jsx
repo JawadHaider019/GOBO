@@ -1364,9 +1364,9 @@ const SearchTabs = ({ onSearchResults, availableTickets = [], context = 'marketp
   }, []);
 
   return (
-    <div className="bg-white rounded-[2.5rem] overflow-x--hidden border border-green-50 w-full shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1)]">
+    <div className="bg-white rounded-[2.5rem] overflow-x--hidden border border-green-50 w-full ">
       {/* Main Tabs */}
-      <div className="flex overflow-x-auto border-b border-gray-300 hide-scrollbar bg-gray-50/30">
+      <div className="flex overflow-x-auto border-b border-gray-300 hide-scrollbar ">
         {CATEGORIES.map((cat) => (
           <button
             key={cat.id}
@@ -1386,7 +1386,7 @@ const SearchTabs = ({ onSearchResults, availableTickets = [], context = 'marketp
         ))}
       </div>
 
-      <div className="p-8">
+      <div className="p-4">
         {/* Header Section */}
       
 
