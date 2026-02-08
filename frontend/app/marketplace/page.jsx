@@ -1,7 +1,7 @@
 // Marketplace.jsx
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { useRouter } from 'next/navigation';
 import ItemCard from '@/components/ItemCard';
 
@@ -21,6 +21,7 @@ const Marketplace = () => {
   const [availableSeatsFilter, setAvailableSeatsFilter] = useState('all');
   const [ratingFilter, setRatingFilter] = useState('all');
   const [sortBy, setSortBy] = useState('recommended');
+const [isSticky, setIsSticky] = useState(false);
 
   // Category definitions
   const categories = [
@@ -53,7 +54,15 @@ const Marketplace = () => {
     { label: 'Highest Rated', value: 'rating_desc' },
     { label: 'Most Available', value: 'seats_desc' }
   ];
+ useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      setIsSticky(scrollTop > 100);
+    };
 
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   // Handle search results from SearchTabs
   const handleSearchResults = (results, activeTab) => {
     setSearchResults(results);
@@ -186,11 +195,20 @@ const Marketplace = () => {
   };
 
   const categoryStats = getCategoryStats();
+   useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      setIsSticky(scrollTop > 100);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Search Tabs */}
-      <div className="bg-white">
+        <div className={`bg-white ${isSticky ? 'sticky top-0 z-50 shadow-md' : ''}`}>
         <div className="max-w-8xl mx-auto px-4 md:px-6">
           <SearchTabs 
             onSearchResults={handleSearchResults}
@@ -203,7 +221,7 @@ const Marketplace = () => {
       <div className="max-w-8xl mx-auto px-4 md:px-6 py-8">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left Sidebar - Filters - 25% width */}
-          <div className="w-64 space-y-4">
+          <div className="w-64 space-y-4 ">
            
           
             {/* Price Filter */}

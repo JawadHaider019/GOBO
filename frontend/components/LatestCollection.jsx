@@ -32,7 +32,7 @@ const LatestCollection = () => {
   }
 
   return (
-    <div className="bg-gray-900 rounded-[3rem] my-4 px-8 py-8 md:px-16 text-white overflow-hidden relative shadow-3xl">
+    <div className="bg-[#003d2b] rounded-[3rem] my-4 px-8 py-8 md:px-16 text-white overflow-hidden relative shadow-3xl">
       {/* Background Decoration */}
       <div className="absolute top-0 right-0 p-10 md:p-20 opacity-10 rotate-12">
         <i className="fas fa-ticket-alt text-[15rem] md:text-[20rem]"></i>

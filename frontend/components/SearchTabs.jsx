@@ -1339,23 +1339,7 @@ const SearchTabs = ({ onSearchResults, availableTickets = [], context = 'marketp
     return `SEARCH`;
   };
 
-  const getHeaderTitle = () => {
-    if (isBus) {
-      return 'Search for Bus';
-    } else if (isLiving) {
-      return 'Find Your Perfect Living Space';
-    }
-    return 'Search';
-  };
-
-  const getHeaderDescription = () => {
-    if (isBus) {
-      return 'Find the best deals for your bus travel!';
-    } else if (isLiving) {
-      return 'Book hostels by beds, hotels by rooms, and apartments by unit type — all in one platform.';
-    }
-    return '';
-  };
+ 
 
   const getCurrentSearchFields = () => {
     if (!currentCategory) return [];
@@ -1404,14 +1388,7 @@ const SearchTabs = ({ onSearchResults, availableTickets = [], context = 'marketp
 
       <div className="p-8">
         {/* Header Section */}
-        <div className="mb-6 space-y-2">
-          <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">
-            {getHeaderTitle()}
-          </h3>
-          <p className="text-gray-500 text-sm md:text-base font-medium">
-            {getHeaderDescription()}
-          </p>
-        </div>
+      
 
         {/* Sub Category Chips */}
         <div className="flex gap-2 overflow-x-auto pb-6 hide-scrollbar mb-2">

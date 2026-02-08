@@ -32,10 +32,10 @@ const BestSelling = () => {
   }
 
   return (
-    <div className="bg-gray-100 my-4 rounded-[3rem] px-8 py-4 md:px-16 text-white overflow-hidden relative shadow-3xl">
+    <div className="bg-gradient-to-r  from-[#00ff88] to-[#00cc6a]  my-4 rounded-[3rem] px-8 py-4 md:px-16 text-white overflow-hidden relative shadow-3xl">
       {/* Background Decoration */}
       <div className="absolute top-0 right-0 p-10 md:p-20 opacity-40 rotate-12">
-        <i className="fas fa-ticket-alt text-[15rem] md:text-[20rem] text-gray-900/20"></i>
+        <i className="fas fa-ticket-alt text-[15rem] md:text-[20rem] text-[#003d2b]/20"></i>
       </div>
       <div className="absolute bottom-10 left-10 opacity-40 -rotate-12">
         <i className="fas fa-calendar-star text-[10rem] md:text-[15rem] text-black/20"></i>
@@ -44,13 +44,13 @@ const BestSelling = () => {
       {/* Header Section */}
       <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 md:gap-8 mb-4">
         <div className="space-y-2 md:space-y-4">
-          <span className="text-[12px] font-black text-red-500 uppercase tracking-[0.4em]">
+          <span className="text-[12px] font-black text-[#003d2b] uppercase tracking-[0.4em]">
             Best Selling
           </span>
-          <h2 className="text-gray-900 text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter">
+          <h2 className="text-[#ffff] text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter">
             Crowd Favorites
           </h2>
-          <p className="text-gray-400 text-sm md:text-base max-w-2xl">
+          <p className="text-gray-100 text-sm md:text-base max-w-2xl">
             Most popular bus and accommodation services selling fast! Slide to explore more!
           </p>
         </div>
@@ -63,8 +63,8 @@ const BestSelling = () => {
                 disabled={currentSlide === 0}
                 className={`w-12 h-12 rounded-full backdrop-blur-sm flex items-center justify-center border transition ${
                   currentSlide === 0 
-                    ? 'bg-gray-900 border-white/20 cursor-not-allowed' 
-                    : 'bg-gray-900 border-white/20 hover:bg-black/90'
+                    ? 'bg-[#003d2b] border-white/20 cursor-not-allowed' 
+                    : 'bg-[#003d2b] border-white/20 hover:bg-black/90'
                 }`}
               >
                 <i className="fas fa-chevron-left"></i>
@@ -74,8 +74,8 @@ const BestSelling = () => {
                 disabled={currentSlide === 1 || items.length <= 3}
                 className={`w-12 h-12 rounded-full backdrop-blur-sm flex items-center justify-center border transition ${
                   currentSlide === 1 || items.length <= 3
-                    ? 'bg-gray-900 border-white/20 cursor-not-allowed' 
-                    : 'bg-gray-900 border-white/20 hover:bg-black/90'
+                    ? 'bg-[#003d2b] border-white/20 cursor-not-allowed' 
+                    : 'bg-[#003d2b] border-white/20 hover:bg-black/90'
                 }`}
               >
                 <i className="fas fa-chevron-right"></i>
@@ -105,13 +105,13 @@ const BestSelling = () => {
               <button
                 onClick={() => setCurrentSlide(0)}
                 className={`w-8 h-2 rounded-full transition-all ${
-                  currentSlide === 0 ? 'bg-gray-900' : 'bg-gray-200'
+                  currentSlide === 0 ? 'bg-[#003d2b]' : 'bg-gray-200'
                 }`}
               />
               <button
                 onClick={() => setCurrentSlide(1)}
                 className={`w-8 h-2 rounded-full transition-all ${
-                  currentSlide === 1 ? 'bg-gray-900' : 'bg-gray-200'
+                  currentSlide === 1 ? 'bg-[#003d2b]' : 'bg-gray-200'
                 }`}
               />
             </div>
@@ -132,7 +132,7 @@ const BestSelling = () => {
 
       {/* View All Button */}
       <div className="relative z-10 mt-4 text-center">
-        <button className="group bg-transparent text-gray-900 font-black px-8 py-4 rounded-2xl text-sm uppercase tracking-widest border-2 border-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-300">
+        <button className="group bg-transparent text-[#003d2b] font-black px-8 py-4 rounded-2xl text-sm uppercase tracking-widest border-2 border-[#003d2b] hover:bg-[#003d2b] hover:text-white transition-all duration-300">
           <span className="flex items-center gap-3">
             View All 
             <i className="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
