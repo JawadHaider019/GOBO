@@ -14,15 +14,30 @@ const LatestCollection = () => {
     item.category === 'BUS' || item.category === 'LIVING'
   );
 
-  // Take first 6 items for display (shuffled or take newest)
-  const items = busLivingItems.slice(0, 6);
+  // Use all filtered items
+  const items = busLivingItems;
+  
+  // Items per slide for desktop
+  const itemsPerSlide = 3;
+  const totalSlides = Math.ceil(items.length / itemsPerSlide);
 
-  // Get current 3 cards to display for desktop slider
+  // Get current cards to display for desktop slider
   const getCurrentCards = () => {
-    if (currentSlide === 0) {
-      return items.slice(0, 3);
-    } else {
-      return items.slice(3, 6);
+    const startIndex = currentSlide * itemsPerSlide;
+    return items.slice(startIndex, startIndex + itemsPerSlide);
+  };
+
+  // Handle next slide
+  const nextSlide = () => {
+    if (currentSlide < totalSlides - 1) {
+      setCurrentSlide(currentSlide + 1);
+    }
+  };
+
+  // Handle previous slide
+  const prevSlide = () => {
+    if (currentSlide > 0) {
+      setCurrentSlide(currentSlide - 1);
     }
   };
 
@@ -48,18 +63,18 @@ const LatestCollection = () => {
             Featured Collection
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter">
-            Top Experiences
+            Travel & Stay
           </h2>
           <p className="text-gray-400 text-sm md:text-base max-w-2xl">
-            Premium bus services and accommodations. Slide to explore more!
+            Premium bus services and accommodations. {items.length} experiences available.
           </p>
         </div>
         <div className="flex items-center gap-4">
-          {/* Slider Navigation Buttons - Only show if we have more than 3 items */}
-          {items.length > 3 && (
+          {/* Slider Navigation Buttons - Only show if we have more than itemsPerSlide items */}
+          {items.length > itemsPerSlide && (
             <div className="hidden md:flex gap-2">
               <button 
-                onClick={() => setCurrentSlide(0)}
+                onClick={prevSlide}
                 disabled={currentSlide === 0}
                 className={`w-12 h-12 rounded-full backdrop-blur-sm flex items-center justify-center border transition ${
                   currentSlide === 0 
@@ -70,10 +85,10 @@ const LatestCollection = () => {
                 <i className="fas fa-chevron-left"></i>
               </button>
               <button 
-                onClick={() => setCurrentSlide(1)}
-                disabled={currentSlide === 1 || items.length <= 3}
+                onClick={nextSlide}
+                disabled={currentSlide === totalSlides - 1}
                 className={`w-12 h-12 rounded-full backdrop-blur-sm flex items-center justify-center border transition ${
-                  currentSlide === 1 || items.length <= 3
+                  currentSlide === totalSlides - 1
                     ? 'bg-white/10 border-white/20 cursor-not-allowed' 
                     : 'bg-white/10 border-white/20 hover:bg-white/20'
                 }`}
@@ -94,39 +109,39 @@ const LatestCollection = () => {
               <ItemCard
                 key={item.id}
                 item={item}
-                // No onViewDetails prop - ItemCard handles its own navigation
               />
             ))}
           </div>
           
-          {/* Slider Dots for Desktop - Only show if we have more than 3 items */}
-          {items.length > 3 && (
+          {/* Slider Dots for Desktop */}
+          {items.length > itemsPerSlide && (
             <div className="flex justify-center gap-2 mt-8">
-              <button
-                onClick={() => setCurrentSlide(0)}
-                className={`w-8 h-2 rounded-full transition-all ${
-                  currentSlide === 0 ? 'bg-[#00ff88]' : 'bg-white/30'
-                }`}
-              />
-              <button
-                onClick={() => setCurrentSlide(1)}
-                className={`w-8 h-2 rounded-full transition-all ${
-                  currentSlide === 1 ? 'bg-[#00ff88]' : 'bg-white/30'
-                }`}
-              />
+              {Array.from({ length: totalSlides }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-8 h-2 rounded-full transition-all ${
+                    currentSlide === index ? 'bg-[#00ff88]' : 'bg-white/30'
+                  }`}
+                />
+              ))}
             </div>
           )}
         </div>
 
-        {/* Mobile: Single column of cards */}
+        {/* Mobile: ALL items in vertical list */}
         <div className="md:hidden space-y-6">
           {items.map((item) => (
             <ItemCard
               key={item.id}
               item={item}
-              // No onViewDetails prop - ItemCard handles its own navigation
             />
           ))}
+          {items.length > 0 && (
+            <p className="text-center text-gray-400 text-sm pt-4">
+              Showing all {items.length} experiences
+            </p>
+          )}
         </div>
       </div>
 
@@ -134,7 +149,7 @@ const LatestCollection = () => {
       <div className="relative z-10 mt-4 text-center">
         <button className="group bg-transparent text-white font-black px-8 py-4 rounded-2xl text-sm uppercase tracking-widest border-2 border-[#00ff88] hover:bg-[#00ff88] hover:text-gray-900 transition-all duration-300">
           <span className="flex items-center gap-3">
-            View All 
+            Browse All
             <i className="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
           </span>
         </button>

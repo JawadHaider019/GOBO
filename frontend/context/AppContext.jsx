@@ -10,7 +10,7 @@ export function AppProvider({ children }) {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Mock data for Bus and Living accommodations
+  // Mock data for Bus and Living accommodations with isBestSelling flag
   const mockListings = [
     // BUS LISTINGS
     {
@@ -35,7 +35,8 @@ export function AppProvider({ children }) {
       amenities: ['AC', 'WiFi', 'Refreshments', 'TV', 'Restroom'],
       busType: 'Executive',
       departurePoint: 'Lahore Terminal',
-      arrivalPoint: 'Islamabad Terminal'
+      arrivalPoint: 'Islamabad Terminal',
+      isBestSelling: false
     },
     {
       id: 'bus-2',
@@ -59,7 +60,8 @@ export function AppProvider({ children }) {
       amenities: ['Sleeper Seats', 'Meals', 'Entertainment', 'AC', 'Charging Ports'],
       busType: 'Luxury Sleeper',
       departurePoint: 'Karaci Terminal',
-      arrivalPoint: 'Lahore Terminal'
+      arrivalPoint: 'Lahore Terminal',
+      isBestSelling: true
     },
     {
       id: 'bus-3',
@@ -82,7 +84,8 @@ export function AppProvider({ children }) {
       amenities: ['AC', 'Comfortable Seating'],
       busType: 'Standard',
       departurePoint: 'Islamabad Bus Stand',
-      arrivalPoint: 'Murree Mall Road'
+      arrivalPoint: 'Murree Mall Road',
+      isBestSelling: false
     },
 
     // LIVING ACCOMMODATIONS
@@ -107,7 +110,8 @@ export function AppProvider({ children }) {
       amenities: ['Swimming Pool', 'Spa', 'Restaurant', 'Gym', 'WiFi', 'Parking'],
       roomType: 'Deluxe Room',
       checkInTime: '2:00 PM',
-      checkOutTime: '12:00 PM'
+      checkOutTime: '12:00 PM',
+      isBestSelling: true
     },
     {
       id: 'living-2',
@@ -129,33 +133,11 @@ export function AppProvider({ children }) {
       amenities: ['Kitchen', 'Sea View', 'WiFi', 'AC', 'TV', 'Washing Machine'],
       roomType: '2-Bedroom Apartment',
       checkInTime: '3:00 PM',
-      checkOutTime: '11:00 AM'
+      checkOutTime: '11:00 AM',
+      isBestSelling: true
     },
     {
       id: 'living-3',
-      title: 'Margalla Hills Guest House',
-      description: 'Cozy guest house nestled in the Margalla Hills. Perfect for nature lovers and peaceful retreats with hiking trails nearby.',
-      price: 4000,
-      discountPrice: 3500,
-      image: 'https://images.unsplash.com/photo-1564501049418-3c27787d01e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      location: 'Islamabad',
-      date: 'Available Year-round',
-      time: 'Check-in: 1:00 PM',
-      type: 'GUEST_HOUSE',
-      category: 'LIVING',
-      organizer: 'Hilltop Retreats',
-      availableSeats: 6,
-      totalSeats: 12,
-      rating: 4.4,
-      isFree: false,
-      duration: 'Per Night',
-      amenities: ['Garden', 'Mountain View', 'Free Breakfast', 'WiFi', 'Parking'],
-      roomType: 'Standard Room',
-      checkInTime: '1:00 PM',
-      checkOutTime: '12:00 PM'
-    },
-    {
-      id: 'living-4',
       title: 'Traditional Haveli Stay Multan',
       description: 'Experience traditional Pakistani hospitality in a restored historic haveli. Authentic cuisine and cultural activities included.',
       price: 6000,
@@ -174,10 +156,11 @@ export function AppProvider({ children }) {
       amenities: ['Traditional Food', 'Cultural Shows', 'Courtyard', 'WiFi', 'AC'],
       roomType: 'Heritage Room',
       checkInTime: '12:00 PM',
-      checkOutTime: '11:00 AM'
+      checkOutTime: '11:00 AM',
+      isBestSelling: false
     },
     {
-      id: 'living-5',
+      id: 'living-4',
       title: 'Budget Hostel Rawalpindi',
       description: 'Affordable dormitory-style accommodation for backpackers and solo travelers. Social atmosphere with common areas.',
       price: 1200,
@@ -196,11 +179,11 @@ export function AppProvider({ children }) {
       amenities: ['Shared Kitchen', 'Common Room', 'Lockers', 'WiFi', 'Laundry'],
       roomType: 'Dorm Bed',
       checkInTime: '2:00 PM',
-      checkOutTime: '11:00 AM'
+      checkOutTime: '11:00 AM',
+      isBestSelling: false
     }
   ];
 
-  // Load user and wallet from localStorage on initial load
   useEffect(() => {
     // Load user
     const savedUser = localStorage.getItem('goBookingUser');
@@ -294,7 +277,8 @@ export function AppProvider({ children }) {
       departurePoint: item.departurePoint,
       arrivalPoint: item.arrivalPoint,
       checkInTime: item.checkInTime,
-      checkOutTime: item.checkOutTime
+      checkOutTime: item.checkOutTime,
+      isBestSelling: item.isBestSelling || false
     };
 
     const updatedWallet = [...wallet, newTicket];
@@ -362,6 +346,11 @@ export function AppProvider({ children }) {
     return listings.find(listing => listing.id === id);
   };
 
+  // Get best selling items
+  const getBestSelling = () => {
+    return listings.filter(item => item.isBestSelling === true);
+  };
+
   return (
     <AppContext.Provider value={{ 
       user, 
@@ -376,6 +365,7 @@ export function AppProvider({ children }) {
       isEventBooked,
       getTicketById,
       getListingById,
+      getBestSelling,
       loading 
     }}>
       {children}

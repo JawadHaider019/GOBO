@@ -42,7 +42,7 @@ const Navbar = () => {
     { label: 'About', path: '/about', icon: 'fa-info-circle' },
     { label: 'Services', path: '/services', icon: 'fa-concierge-bell' },
     { label: 'Marketplace', path: '/marketplace', icon: 'fa-store' },
-    { label: 'Blogs', path: '/blogs', icon: 'fa-blog' },
+    // { label: 'Blogs', path: '/blogs', icon: 'fa-blog' },
   ];
 
   return (
