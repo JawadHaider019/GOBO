@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useApp } from '@/context/AppContext';
+import { useApp } from '../../context/AppContext';
 import { useRouter } from 'next/navigation';
 
 const Dashboard = () => {
