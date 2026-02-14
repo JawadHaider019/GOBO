@@ -4,21 +4,20 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Hero from '../components/Hero';
-import SearchTabs from '@/components/SearchTabs';
-import LatestCollection from '@/components/LatestCollection';
-import HowItWorks from '@/components/HowItWorks';
-import BestSelling from '@/components/BestSelling';
-import Stats from '@/components/Stats';
+import SearchTabs from '../components/SearchTabs';
+import LatestCollection from '../components/LatestCollection';
+import HowItWorks from '../components/HowItWorks';
+import BestSelling from '../components/BestSelling';
+import Stats from '../components/Stats';
 import { toast } from 'react-hot-toast';
-import FAQSection from '@/components/FAQSection';
-import CTA from '@/components/CTA';
+import FAQSection from '../components/FAQSection';
+import CTA from '../components/CTA';
 
 export default function Home() {
   const [user, setUser] = useState(null);
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [formState, setFormState] = useState({
     name: '',
-    cnic: '',
     address: '',
     email: '',
     password: ''
@@ -148,7 +147,6 @@ export default function Home() {
       // Clear form
       setFormState({
         name: '',
-        cnic: '',
         address: '',
         email: '',
         password: ''
@@ -221,7 +219,7 @@ export default function Home() {
         formError={formError}
       />
        {/* Search Tabs Section */}
-    <section className="relative z-20 -mt-10 px-4 md:px-8 lg:px-10">
+ <section className="relative z-20 -mt-0 sm:-mt-12 md:-mt-10 px-4 md:px-8 lg:px-10 ">
   <SearchTabs />
 </section>
   <LatestCollection />

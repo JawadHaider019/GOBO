@@ -1,7 +1,7 @@
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { AppProvider } from "@/context/AppContext";
+import { AppProvider } from "../context/AppContext";
 
 export const metadata = {
   title: "Go Booking - Pakistan's First Unified Ticketing Ecosystem",

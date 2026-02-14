@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Auth from './Auth';
-import { useApp } from '@/context/AppContext'; // Import the context
+import { useApp } from "../context/AppContext";; 
 
 const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
   const { user, login, logout } = useApp(); // Get global state functions

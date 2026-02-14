@@ -1,9 +1,9 @@
 "use client";
 
 import React from 'react';
-import HowItWorks from '@/components/HowItWorks';
-import CTA from '@/components/CTA';
-import HeroSection from '@/components/HeroSection';
+import HowItWorks from '../../components/HowItWorks';
+import CTA from '../../components/CTA';
+import HeroSection from '../../components/HeroSection';
 
 const About = () => {
   const whatWeDo = [

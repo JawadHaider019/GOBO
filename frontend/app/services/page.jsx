@@ -19,7 +19,7 @@ import {
   FaMobileAlt,
   FaCheckCircle
 } from 'react-icons/fa';
-import HeroSection from '@/components/HeroSection';
+import HeroSection from '../../components/HeroSection';
 
 const Services = () => {
   const serviceCategories = [

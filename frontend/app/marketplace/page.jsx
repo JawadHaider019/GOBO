@@ -3,9 +3,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import ItemCard from '@/components/ItemCard';
-import SearchTabs from '@/components/SearchTabs';
-import { useApp } from '@/context/AppContext';
+import ItemCard from '../../components/ItemCard';
+import SearchTabs from '../../components/SearchTabs';
+import { useApp } from '../../context/AppContext';
 
 const Marketplace = () => {
   const router = useRouter();
@@ -168,122 +168,122 @@ const Marketplace = () => {
     setIsFilterDrawerOpen(false);
   };
 
-  // Filter content component
-  const FilterContent = () => (
-    <div className="space-y-4 w-100">
-      {/* Price Filter */}
-      <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-        <h3 className="font-bold text-gray-900 mb-3 text-sm">Price Range</h3>
-        <div className="space-y-1">
-          {priceRanges.map(range => (
-            <button
-              key={range.label}
-              onClick={() => setPriceRange({ min: range.min, max: range.max })}
-              className={`w-full text-left p-2 rounded-lg transition-all text-sm ${
-                priceRange.min === range.min && priceRange.max === range.max
-                  ? 'bg-[#003d2b] text-white' 
-                  : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
-              }`}
-            >
-              {range.label}
-            </button>
-          ))}
-        </div>
-        <div className="mt-3 pt-3 border-t border-gray-100">
-          <div className="flex justify-between text-xs text-gray-600 mb-1">
-            <span>PKR {priceRange.min.toLocaleString()}</span>
-            <span>PKR {priceRange.max.toLocaleString()}</span>
-          </div>
-          <input
-            type="range"
-            min="0"
-            max="100000"
-            step="1000"
-            value={priceRange.max}
-            onChange={(e) => setPriceRange(prev => ({ ...prev, max: parseInt(e.target.value) }))}
-            className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-          />
-        </div>
+// Filter content component - Updated with fixed widths
+const FilterContent = () => (
+  <div className="space-y-4 w-full overflow-hidden">
+    {/* Price Filter */}
+    <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm w-full">
+      <h3 className="font-bold text-gray-900 mb-3 text-sm truncate">Price Range</h3>
+      <div className="space-y-1 w-full">
+        {priceRanges.map(range => (
+          <button
+            key={range.label}
+            onClick={() => setPriceRange({ min: range.min, max: range.max })}
+            className={`w-full text-left px-3 py-2 rounded-lg transition-all text-sm truncate ${
+              priceRange.min === range.min && priceRange.max === range.max
+                ? 'bg-[#003d2b] text-white' 
+                : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
+            }`}
+          >
+            {range.label}
+          </button>
+        ))}
       </div>
-
-      {/* Availability Filter */}
-      <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-        <h3 className="font-bold text-gray-900 mb-3 text-sm">Availability</h3>
-        <div className="space-y-1">
-          {[
-            { label: 'All', value: 'all' },
-            { label: 'Limited (<10)', value: 'limited' },
-            { label: 'Available (10-50)', value: 'available' },
-            { label: 'Plenty (>50)', value: 'plenty' }
-          ].map(option => (
-            <button
-              key={option.value}
-              onClick={() => setAvailableSeatsFilter(option.value)}
-              className={`w-full text-left p-2 rounded-lg transition-all text-sm ${
-                availableSeatsFilter === option.value
-                  ? 'bg-[#003d2b] text-white' 
-                  : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
-              }`}
-            >
-              {option.label}
-            </button>
-          ))}
+      <div className="mt-3 pt-3 border-t border-gray-100 w-full">
+        <div className="flex justify-between text-xs text-gray-600 mb-1">
+          <span>PKR {priceRange.min.toLocaleString()}</span>
+          <span>PKR {priceRange.max.toLocaleString()}</span>
         </div>
+        <input
+          type="range"
+          min="0"
+          max="100000"
+          step="1000"
+          value={priceRange.max}
+          onChange={(e) => setPriceRange(prev => ({ ...prev, max: parseInt(e.target.value) }))}
+          className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+        />
       </div>
-
-      {/* Rating Filter */}
-      <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-        <h3 className="font-bold text-gray-900 mb-3 text-sm">Rating</h3>
-        <div className="space-y-1">
-          {ratingOptions.map(option => (
-            <button
-              key={option.value}
-              onClick={() => setRatingFilter(option.value)}
-              className={`w-full flex items-center justify-between p-2 rounded-lg transition-all text-sm ${
-                ratingFilter === option.value
-                  ? 'bg-[#003d2b] text-white' 
-                  : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
-              }`}
-            >
-              <span>{option.label}</span>
-              {option.value !== 'all' && (
-                <i className="fas fa-star text-yellow-400 text-xs"></i>
-              )}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Sort Options */}
-      <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-        <h3 className="font-bold text-gray-900 mb-3 text-sm">Sort By</h3>
-        <div className="space-y-1">
-          {sortOptions.map(option => (
-            <button
-              key={option.value}
-              onClick={() => setSortBy(option.value)}
-              className={`w-full text-left p-2 rounded-lg transition-all text-sm ${
-                sortBy === option.value
-                  ? 'bg-[#003d2b] text-white' 
-                  : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
-              }`}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Reset Filters */}
-      <button
-        onClick={handleResetFilters}
-        className="w-full bg-white border border-red-300 text-red-600 font-medium text-sm py-2 rounded-xl hover:bg-red-50 transition-all"
-      >
-        <i className="fas fa-redo mr-2 text-xs"></i>
-        Reset All Filters
-      </button>
     </div>
-  );
+
+    {/* Availability Filter */}
+    <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm w-full">
+      <h3 className="font-bold text-gray-900 mb-3 text-sm truncate">Availability</h3>
+      <div className="space-y-1 w-full">
+        {[
+          { label: 'All', value: 'all' },
+          { label: 'Limited (<10)', value: 'limited' },
+          { label: 'Available (10-50)', value: 'available' },
+          { label: 'Plenty (>50)', value: 'plenty' }
+        ].map(option => (
+          <button
+            key={option.value}
+            onClick={() => setAvailableSeatsFilter(option.value)}
+            className={`w-full text-left px-3 py-2 rounded-lg transition-all text-sm truncate ${
+              availableSeatsFilter === option.value
+                ? 'bg-[#003d2b] text-white' 
+                : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
+            }`}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    {/* Rating Filter */}
+    <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm w-full">
+      <h3 className="font-bold text-gray-900 mb-3 text-sm truncate">Rating</h3>
+      <div className="space-y-1 w-full">
+        {ratingOptions.map(option => (
+          <button
+            key={option.value}
+            onClick={() => setRatingFilter(option.value)}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all text-sm ${
+              ratingFilter === option.value
+                ? 'bg-[#003d2b] text-white' 
+                : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
+            }`}
+          >
+            <span className="truncate">{option.label}</span>
+            {option.value !== 'all' && (
+              <i className="fas fa-star text-yellow-400 text-xs flex-shrink-0 ml-2"></i>
+            )}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    {/* Sort Options */}
+    <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm w-full">
+      <h3 className="font-bold text-gray-900 mb-3 text-sm truncate">Sort By</h3>
+      <div className="space-y-1 w-full">
+        {sortOptions.map(option => (
+          <button
+            key={option.value}
+            onClick={() => setSortBy(option.value)}
+            className={`w-full text-left px-3 py-2 rounded-lg transition-all text-sm truncate ${
+              sortBy === option.value
+                ? 'bg-[#003d2b] text-white' 
+                : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
+            }`}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    {/* Reset Filters */}
+    <button
+      onClick={handleResetFilters}
+      className="w-full bg-white border border-red-300 text-red-600 font-medium text-sm py-3 rounded-xl hover:bg-red-50 transition-all"
+    >
+      <i className="fas fa-redo mr-2 text-xs"></i>
+      Reset All Filters
+    </button>
+  </div>
+);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -412,8 +412,6 @@ const Marketplace = () => {
           )}
         </div>
       </div>
-
-
 
 {isFilterDrawerOpen && (
   <div className="fixed inset-0 z-50">

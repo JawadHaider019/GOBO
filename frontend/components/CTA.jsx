@@ -11,7 +11,7 @@ const CTA = () => {
   };
 
   return (
-    <section className="relative overflow-hidden py-10 bg-gradient-to-b from-gray-50 via-white to-emerald-50/30 ">
+    <section className="relative overflow-hidden py-10 bg-white to-emerald-50/30 ">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-10 w-72 h-72 bg-green-200/20 rounded-full blur-3xl"></div>

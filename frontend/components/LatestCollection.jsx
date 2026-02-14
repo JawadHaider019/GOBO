@@ -2,8 +2,8 @@
 "use client";
 
 import { useState } from 'react';
-import ItemCard from '@/components/ItemCard';
-import { useApp } from '@/context/AppContext';
+import ItemCard from '../components/ItemCard';
+import { useApp } from "../context/AppContext";
 
 const LatestCollection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);

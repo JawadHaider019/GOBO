@@ -62,7 +62,7 @@ const CATEGORIES = [
     id: BookingType.LIVING,
     label: 'Living',
     icon: 'fa-building',
-    subs: [ 'Hotels', 'Apartments','Hostels'],
+    subs: ['Hotels', 'Apartments', 'Hostels'],
     searchFields: (selectedSub) => {
       const fields = [
         {
@@ -152,10 +152,10 @@ const DurationPicker = ({
 
   return (
     <div className="relative" ref={durationPickerRef}>
-      {/* Input Display */}
+      {/* Input Display - Enhanced with shadow */}
       <div 
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 bg-gray-50 border border-gray-100 rounded-2xl px-5 py-3.5 focus-within:border-green-300 focus-within:ring-2 focus-within:ring-green-100 transition-all duration-200 cursor-pointer"
+        className="flex items-center gap-3 bg-gray-50 border border-gray-100 rounded-2xl px-5 py-3.5 focus-within:border-green-300 focus-within:ring-4 focus-within:ring-green-100 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
       >
         <i className="fas fa-calendar text-[#003d2b]"></i>
         <span className={`flex-1 text-left ${value ? 'text-gray-800 font-bold' : 'text-gray-400'} text-sm`}>
@@ -164,7 +164,7 @@ const DurationPicker = ({
         <i className={`fas fa-chevron-down text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}></i>
       </div>
 
-      {/* Duration Popup */}
+      {/* Duration Popup - Enhanced with better shadows */}
       {isOpen && (
         <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-4 z-[100] w-[320px]">
           {/* Header */}
@@ -179,10 +179,10 @@ const DurationPicker = ({
               <button
                 key={index}
                 onClick={() => handleDurationSelect(option)}
-                className={`w-full p-3 rounded-lg border text-left transition-all ${
+                className={`w-full p-3 rounded-lg border text-left transition-all shadow-sm ${
                   value === option 
-                    ? 'border-[#003d2b] bg-[#003d2b] text-white' 
-                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                    ? 'border-[#003d2b] bg-[#003d2b] text-white shadow-md' 
+                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 hover:shadow'
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -205,13 +205,13 @@ const DurationPicker = ({
           <div className="flex gap-2 mt-4">
             <button
               onClick={handleClear}
-              className="flex-1 py-2 text-xs font-bold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+              className="flex-1 py-2 text-xs font-bold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors shadow-sm hover:shadow"
             >
               Clear
             </button>
             <button
               onClick={() => setIsOpen(false)}
-              className="flex-1 py-2 text-xs font-bold text-white bg-[#003d2b] rounded-lg hover:bg-[#002a1d] transition-colors"
+              className="flex-1 py-2 text-xs font-bold text-white bg-[#003d2b] rounded-lg hover:bg-[#002a1d] transition-colors shadow-md hover:shadow-lg"
             >
               Done
             </button>
@@ -222,7 +222,7 @@ const DurationPicker = ({
   );
 };
 
-// Rooms/Seats Selector Component
+// Rooms/Seats Selector Component - Fixed selection visibility
 const RoomsSeatsSelector = ({ 
   livingType, 
   value, 
@@ -244,6 +244,13 @@ const RoomsSeatsSelector = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Update selections when value changes externally
+  useEffect(() => {
+    if (JSON.stringify(value) !== JSON.stringify(selections)) {
+      setSelections(value || []);
+    }
+  }, [value]);
+
   const hostelSeaterTypes = [
     { id: '1-seater', label: '1 Seater', icon: 'fa-user', seats: 1 },
     { id: '2-seater', label: '2 Seater', icon: 'fa-user-friends', seats: 2 },
@@ -264,28 +271,28 @@ const RoomsSeatsSelector = ({
     { id: '3-bed', label: '3 Bed', icon: 'fa-home', units: 1 }
   ];
 
-  const addSelection = () => {
+  const addSelection = (type) => {
     let newSelection;
     
     if (livingType === 'Hostels') {
       newSelection = {
         type: 'hostel',
-        seaterType: hostelSeaterTypes[0].label,
-        seats: 1,
+        seaterType: type.label,
+        seats: type.seats,
         count: 1
       };
     } else if (livingType === 'Hotels') {
       newSelection = {
         type: 'hotel',
-        roomType: hotelRoomTypes[0].label,
-        rooms: 1,
+        roomType: type.label,
+        rooms: type.rooms,
         count: 1
       };
     } else {
       newSelection = {
         type: 'apartment',
-        apartmentType: apartmentTypes[0].label,
-        units: 1,
+        apartmentType: type.label,
+        units: type.units,
         count: 1
       };
     }
@@ -295,9 +302,13 @@ const RoomsSeatsSelector = ({
     onChange(updatedSelections);
   };
 
-  const updateSelection = (index, updates) => {
+  const updateCount = (index, increment) => {
     const updatedSelections = [...selections];
-    updatedSelections[index] = { ...updatedSelections[index], ...updates };
+    const newCount = Math.max(1, updatedSelections[index].count + increment);
+    updatedSelections[index] = { 
+      ...updatedSelections[index], 
+      count: newCount 
+    };
     setSelections(updatedSelections);
     onChange(updatedSelections);
   };
@@ -332,40 +343,66 @@ const RoomsSeatsSelector = ({
           {hostelSeaterTypes.map(type => (
             <button
               key={type.id}
-              onClick={() => selections[0] && updateSelection(0, { seaterType: type.label, seats: type.seats })}
-              className={`p-3 rounded-lg border flex flex-col items-center gap-2 transition-all ${
-                selections[0]?.seaterType === type.label 
-                  ? 'border-green-500 bg-green-50' 
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
+              onClick={() => addSelection(type)}
+              className="p-3 rounded-lg border border-gray-200 hover:border-[#003d2b] hover:bg-[#003d2b] hover:text-white flex flex-col items-center gap-2 transition-all shadow-sm"
             >
-              <i className={`fas ${type.icon} text-gray-600`}></i>
+              <i className={`fas ${type.icon} text-gray-600 group-hover:text-white`}></i>
               <span className="text-xs font-bold">{type.label}</span>
             </button>
           ))}
         </div>
       </div>
       
-      <div className="space-y-2">
-        <label className="text-xs font-bold text-gray-600">Seats Count</label>
-        {selections.map((selection, index) => (
-          <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
-            <button
-              onClick={() => updateSelection(index, { count: Math.max(1, selection.count - 1) })}
-              className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300"
-            >
-              <i className="fas fa-minus text-gray-600 text-xs"></i>
-            </button>
-            <span className="font-bold text-gray-800">{selection.count}</span>
-            <button
-              onClick={() => updateSelection(index, { count: selection.count + 1 })}
-              className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300"
-            >
-              <i className="fas fa-plus text-gray-600 text-xs"></i>
-            </button>
-          </div>
-        ))}
-      </div>
+      {/* Selected Items with Count Controls */}
+      {selections.length > 0 && (
+        <div className="space-y-2">
+          <label className="text-xs font-bold text-gray-600">Selected Items</label>
+          {selections.map((selection, index) => (
+            <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg shadow-sm border border-gray-200">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-[#003d2b] rounded-full flex items-center justify-center text-white">
+                  <i className={`fas ${selection.type === 'hostel' ? 'fa-user' : selection.type === 'hotel' ? 'fa-bed' : 'fa-home'} text-xs`}></i>
+                </div>
+                <div>
+                  <span className="text-xs font-bold text-gray-800 block">
+                    {selection.type === 'hostel' ? selection.seaterType : 
+                     selection.type === 'hotel' ? selection.roomType : selection.apartmentType}
+                  </span>
+                  <span className="text-[10px] text-gray-500">
+                    {selection.type === 'hostel' ? `${selection.seats} seat` : 
+                     selection.type === 'hotel' ? `${selection.rooms} room` : `${selection.units} unit`} per item
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 bg-white rounded-lg border border-gray-200 p-1">
+                  <button
+                    onClick={() => updateCount(index, -1)}
+                    className="w-6 h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
+                  >
+                    <i className="fas fa-minus text-xs text-gray-600"></i>
+                  </button>
+                  <span className="text-sm font-bold text-gray-800 min-w-[20px] text-center">
+                    {selection.count}
+                  </span>
+                  <button
+                    onClick={() => updateCount(index, 1)}
+                    className="w-6 h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
+                  >
+                    <i className="fas fa-plus text-xs text-gray-600"></i>
+                  </button>
+                </div>
+                <button
+                  onClick={() => removeSelection(index)}
+                  className="w-6 h-6 rounded-full hover:bg-red-100 flex items-center justify-center text-red-500"
+                >
+                  <i className="fas fa-times text-xs"></i>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 
@@ -377,40 +414,60 @@ const RoomsSeatsSelector = ({
           {hotelRoomTypes.map(type => (
             <button
               key={type.id}
-              onClick={() => selections[0] && updateSelection(0, { roomType: type.label, rooms: type.rooms })}
-              className={`p-3 rounded-lg border flex flex-col items-center gap-2 transition-all ${
-                selections[0]?.roomType === type.label 
-                  ? 'border-green-500 bg-green-50' 
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
+              onClick={() => addSelection(type)}
+              className="p-3 rounded-lg border border-gray-200 hover:border-[#003d2b] hover:bg-[#003d2b] hover:text-white flex flex-col items-center gap-2 transition-all shadow-sm"
             >
-              <i className={`fas ${type.icon} text-gray-600`}></i>
+              <i className={`fas ${type.icon} text-gray-600 group-hover:text-white`}></i>
               <span className="text-xs font-bold">{type.label}</span>
             </button>
           ))}
         </div>
       </div>
       
-      <div className="space-y-2">
-        <label className="text-xs font-bold text-gray-600">Rooms Count</label>
-        {selections.map((selection, index) => (
-          <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
-            <button
-              onClick={() => updateSelection(index, { count: Math.max(1, selection.count - 1) })}
-              className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300"
-            >
-              <i className="fas fa-minus text-gray-600 text-xs"></i>
-            </button>
-            <span className="font-bold text-gray-800">{selection.count}</span>
-            <button
-              onClick={() => updateSelection(index, { count: selection.count + 1 })}
-              className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300"
-            >
-              <i className="fas fa-plus text-gray-600 text-xs"></i>
-            </button>
-          </div>
-        ))}
-      </div>
+      {/* Selected Items with Count Controls */}
+      {selections.length > 0 && (
+        <div className="space-y-2">
+          <label className="text-xs font-bold text-gray-600">Selected Items</label>
+          {selections.map((selection, index) => (
+            <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg shadow-sm border border-gray-200">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-[#003d2b] rounded-full flex items-center justify-center text-white">
+                  <i className="fas fa-bed text-xs"></i>
+                </div>
+                <div>
+                  <span className="text-xs font-bold text-gray-800 block">{selection.roomType}</span>
+                  <span className="text-[10px] text-gray-500">{selection.rooms} room per item</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 bg-white rounded-lg border border-gray-200 p-1">
+                  <button
+                    onClick={() => updateCount(index, -1)}
+                    className="w-6 h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
+                  >
+                    <i className="fas fa-minus text-xs text-gray-600"></i>
+                  </button>
+                  <span className="text-sm font-bold text-gray-800 min-w-[20px] text-center">
+                    {selection.count}
+                  </span>
+                  <button
+                    onClick={() => updateCount(index, 1)}
+                    className="w-6 h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
+                  >
+                    <i className="fas fa-plus text-xs text-gray-600"></i>
+                  </button>
+                </div>
+                <button
+                  onClick={() => removeSelection(index)}
+                  className="w-6 h-6 rounded-full hover:bg-red-100 flex items-center justify-center text-red-500"
+                >
+                  <i className="fas fa-times text-xs"></i>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 
@@ -422,40 +479,60 @@ const RoomsSeatsSelector = ({
           {apartmentTypes.map(type => (
             <button
               key={type.id}
-              onClick={() => selections[0] && updateSelection(0, { apartmentType: type.label, units: type.units })}
-              className={`p-3 rounded-lg border flex flex-col items-center gap-2 transition-all ${
-                selections[0]?.apartmentType === type.label 
-                  ? 'border-green-500 bg-green-50' 
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
+              onClick={() => addSelection(type)}
+              className="p-3 rounded-lg border border-gray-200 hover:border-[#003d2b] hover:bg-[#003d2b] hover:text-white flex flex-col items-center gap-2 transition-all shadow-sm"
             >
-              <i className={`fas ${type.icon} text-gray-600`}></i>
+              <i className={`fas ${type.icon} text-gray-600 group-hover:text-white`}></i>
               <span className="text-xs font-bold">{type.label}</span>
             </button>
           ))}
         </div>
       </div>
       
-      <div className="space-y-2">
-        <label className="text-xs font-bold text-gray-600">Units Count</label>
-        {selections.map((selection, index) => (
-          <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
-            <button
-              onClick={() => updateSelection(index, { count: Math.max(1, selection.count - 1) })}
-              className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300"
-            >
-              <i className="fas fa-minus text-gray-600 text-xs"></i>
-            </button>
-            <span className="font-bold text-gray-800">{selection.count}</span>
-            <button
-              onClick={() => updateSelection(index, { count: selection.count + 1 })}
-              className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300"
-            >
-              <i className="fas fa-plus text-gray-600 text-xs"></i>
-            </button>
-          </div>
-        ))}
-      </div>
+      {/* Selected Items with Count Controls */}
+      {selections.length > 0 && (
+        <div className="space-y-2">
+          <label className="text-xs font-bold text-gray-600">Selected Items</label>
+          {selections.map((selection, index) => (
+            <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg shadow-sm border border-gray-200">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-[#003d2b] rounded-full flex items-center justify-center text-white">
+                  <i className="fas fa-home text-xs"></i>
+                </div>
+                <div>
+                  <span className="text-xs font-bold text-gray-800 block">{selection.apartmentType}</span>
+                  <span className="text-[10px] text-gray-500">{selection.units} unit per item</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 bg-white rounded-lg border border-gray-200 p-1">
+                  <button
+                    onClick={() => updateCount(index, -1)}
+                    className="w-6 h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
+                  >
+                    <i className="fas fa-minus text-xs text-gray-600"></i>
+                  </button>
+                  <span className="text-sm font-bold text-gray-800 min-w-[20px] text-center">
+                    {selection.count}
+                  </span>
+                  <button
+                    onClick={() => updateCount(index, 1)}
+                    className="w-6 h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
+                  >
+                    <i className="fas fa-plus text-xs text-gray-600"></i>
+                  </button>
+                </div>
+                <button
+                  onClick={() => removeSelection(index)}
+                  className="w-6 h-6 rounded-full hover:bg-red-100 flex items-center justify-center text-red-500"
+                >
+                  <i className="fas fa-times text-xs"></i>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 
@@ -472,24 +549,6 @@ const RoomsSeatsSelector = ({
     }
   };
 
-  const getAddButtonText = () => {
-    switch (livingType) {
-      case 'Hostels': return 'Add Seat';
-      case 'Hotels': return 'Add Room';
-      case 'Apartments': return 'Add Apartment';
-      default: return 'Add';
-    }
-  };
-
-  const getItemLabel = (selection) => {
-    switch (selection.type) {
-      case 'hostel': return `${selection.count} × ${selection.seaterType}`;
-      case 'hotel': return `${selection.count} × ${selection.roomType}`;
-      case 'apartment': return `${selection.count} × ${selection.apartmentType}`;
-      default: return '';
-    }
-  };
-
   const getItemIcon = (selection) => {
     switch (selection.type) {
       case 'hostel': return 'fa-user';
@@ -501,10 +560,10 @@ const RoomsSeatsSelector = ({
 
   return (
     <div className="relative" ref={selectorRef}>
-      {/* Input Display */}
+      {/* Input Display - Enhanced with shadow */}
       <div 
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 bg-gray-50 border border-gray-100 rounded-2xl px-5 py-3.5 focus-within:border-green-300 focus-within:ring-2 focus-within:ring-green-100 transition-all duration-200 cursor-pointer"
+        className="flex items-center gap-3 bg-gray-50 border border-gray-100 rounded-2xl px-5 py-3.5 focus-within:border-green-300 focus-within:ring-4 focus-within:ring-green-100 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
       >
         <i className="fas fa-plus text-[#003d2b]"></i>
         <span className={`flex-1 text-left ${selections.length > 0 ? 'text-gray-800 font-bold' : 'text-gray-400'} text-sm`}>
@@ -515,7 +574,7 @@ const RoomsSeatsSelector = ({
 
       {/* Dropdown Popup */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-4 z-[100] w-[320px]">
+        <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-4 z-[9999] w-[320px]">
           {/* Type Header */}
           <div className="mb-4">
             <div className="flex items-center gap-2 mb-1">
@@ -524,72 +583,17 @@ const RoomsSeatsSelector = ({
                 livingType === 'Hotels' ? 'fa-bed' : 'fa-home'
               } text-[#003d2b]`}></i>
               <h3 className="font-bold text-gray-900">
-                {livingType === 'Hostels' ? 'Seat Selection' : 
-                 livingType === 'Hotels' ? 'Room Selection' : 'Apartment Selection'}
+                {livingType === 'Hostels' ? 'Select Seats' : 
+                 livingType === 'Hotels' ? 'Select Rooms' : 'Select Apartments'}
               </h3>
             </div>
             <p className="text-xs text-gray-500">
-              {livingType === 'Hostels' ? 'Select seater type and number of seats' : 
-               livingType === 'Hotels' ? 'Select room type and number of rooms' : 
-               'Select apartment type and number of units'}
+              Click on a type to add it to your selection
             </p>
           </div>
 
           {/* Content */}
           {renderContent()}
-
-          {/* Add Button */}
-          <button
-            onClick={addSelection}
-            className="w-full mt-4 py-3 text-sm font-bold text-white bg-[#003d2b] rounded-lg hover:bg-[#002a1d] transition-colors flex items-center justify-center gap-2"
-          >
-            <i className="fas fa-plus"></i>
-            {getAddButtonText()}
-          </button>
-
-          {/* Selection List */}
-          {selections.length > 0 && (
-            <div className="mt-4 pt-4 border-t border-gray-200">
-              <h4 className="text-xs font-bold text-gray-600 mb-2">Selected Items</h4>
-              <div className="space-y-2 max-h-40 overflow-y-auto">
-                {selections.map((selection, index) => (
-                  <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <i className={`fas ${getItemIcon(selection)} text-gray-600`}></i>
-                      <span className="text-xs font-bold text-gray-800">
-                        {getItemLabel(selection)}
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => removeSelection(index)}
-                      className="text-red-500 hover:text-red-700 w-6 h-6 flex items-center justify-center"
-                    >
-                      <i className="fas fa-times text-sm"></i>
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Action Buttons */}
-          <div className="flex gap-2 mt-4">
-            <button
-              onClick={() => {
-                setSelections([]);
-                onChange([]);
-              }}
-              className="flex-1 py-2 text-xs font-bold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-            >
-              Clear All
-            </button>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="flex-1 py-2 text-xs font-bold text-white bg-[#003d2b] rounded-lg hover:bg-[#002a1d] transition-colors"
-            >
-              Done
-            </button>
-          </div>
         </div>
       )}
     </div>
@@ -728,10 +732,10 @@ const SingleDatePicker = ({
 
   return (
     <div className="relative" ref={datePickerRef}>
-      {/* Input Display */}
+      {/* Input Display - Enhanced with shadow */}
       <div 
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 bg-gray-50 border border-gray-100 rounded-2xl px-5 py-3.5 focus-within:border-green-300 focus-within:ring-2 focus-within:ring-green-100 transition-all duration-200 cursor-pointer"
+        className="flex items-center gap-3 bg-gray-50 border border-gray-100 rounded-2xl px-5 py-3.5 focus-within:border-green-300 focus-within:ring-4 focus-within:ring-green-100 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
       >
         <i className="fas fa-calendar-day text-[#003d2b]"></i>
         <span className={`flex-1 text-left ${value ? 'text-gray-800 font-bold' : 'text-gray-400'} text-sm`}>
@@ -740,14 +744,14 @@ const SingleDatePicker = ({
         <i className={`fas fa-chevron-down text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}></i>
       </div>
 
-      {/* Calendar Popup */}
+      {/* Calendar Popup - Enhanced with better shadows */}
       {isOpen && (
         <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-4 z-[100] w-[320px]">
           {/* Header */}
           <div className="flex justify-between items-center mb-4">
             <button 
               onClick={prevMonth}
-              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors"
+              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm hover:shadow"
             >
               <i className="fas fa-chevron-left text-gray-600"></i>
             </button>
@@ -756,7 +760,7 @@ const SingleDatePicker = ({
             </h3>
             <button 
               onClick={nextMonth}
-              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors"
+              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm hover:shadow"
             >
               <i className="fas fa-chevron-right text-gray-600"></i>
             </button>
@@ -782,9 +786,9 @@ const SingleDatePicker = ({
                   w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all duration-200
                   ${day.isDisabled ? 'text-gray-300 cursor-not-allowed' : ''}
                   ${!day.isCurrentMonth && !day.isDisabled ? 'text-gray-400' : ''}
-                  ${day.isCurrentMonth && !day.isDisabled ? 'text-gray-800 hover:bg-gray-100' : ''}
-                  ${day.isSelected ? 'bg-[#003d2b] text-white hover:bg-[#002a1d]' : ''}
-                  ${day.isToday && !day.isSelected ? 'border-2 border-green-500' : ''}
+                  ${day.isCurrentMonth && !day.isDisabled ? 'text-gray-800 hover:bg-gray-100 hover:shadow' : ''}
+                  ${day.isSelected ? 'bg-[#003d2b] text-white hover:bg-[#002a1d] shadow-md scale-105' : ''}
+                  ${day.isToday && !day.isSelected ? 'border-2 border-green-500 shadow-sm' : ''}
                 `}
               >
                 {day.date.getDate()}
@@ -796,7 +800,7 @@ const SingleDatePicker = ({
           <div className="mt-4 pt-4 border-t border-gray-100">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#003d2b]"></div>
+                <div className="w-3 h-3 rounded-full bg-[#003d2b] shadow-sm"></div>
                 <span className="text-xs text-gray-600">Selected Date</span>
               </div>
             </div>
@@ -810,13 +814,13 @@ const SingleDatePicker = ({
             <div className="flex gap-2 mt-4">
               <button
                 onClick={resetDate}
-                className="flex-1 py-2 text-xs font-bold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                className="flex-1 py-2 text-xs font-bold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors shadow-sm hover:shadow"
               >
                 Clear
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="flex-1 py-2 text-xs font-bold text-white bg-[#003d2b] rounded-lg hover:bg-[#002a1d] transition-colors"
+                className="flex-1 py-2 text-xs font-bold text-white bg-[#003d2b] rounded-lg hover:bg-[#002a1d] transition-colors shadow-md hover:shadow-lg"
               >
                 Apply
               </button>
@@ -973,10 +977,10 @@ const CombinedDatePicker = ({
 
   return (
     <div className="relative" ref={datePickerRef}>
-      {/* Input Display */}
+      {/* Input Display - Enhanced with shadow */}
       <div 
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 bg-gray-50 border border-gray-100 rounded-2xl px-5 py-3.5 focus-within:border-green-300 focus-within:ring-2 focus-within:ring-green-100 transition-all duration-200 cursor-pointer"
+        className="flex items-center gap-3 bg-gray-50 border border-gray-100 rounded-2xl px-5 py-3.5 focus-within:border-green-300 focus-within:ring-4 focus-within:ring-green-100 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
       >
         <i className="fas fa-calendar-day text-[#003d2b]"></i>
         <span className={`flex-1 text-left ${startValue || endValue ? 'text-gray-800 font-bold' : 'text-gray-400'} text-sm`}>
@@ -985,14 +989,14 @@ const CombinedDatePicker = ({
         <i className={`fas fa-chevron-down text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}></i>
       </div>
 
-      {/* Calendar Popup */}
+      {/* Calendar Popup - Enhanced with better shadows */}
       {isOpen && (
         <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-4 z-[100] w-[320px]">
           {/* Header */}
           <div className="flex justify-between items-center mb-4">
             <button 
               onClick={prevMonth}
-              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors"
+              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm hover:shadow"
             >
               <i className="fas fa-chevron-left text-gray-600"></i>
             </button>
@@ -1001,7 +1005,7 @@ const CombinedDatePicker = ({
             </h3>
             <button 
               onClick={nextMonth}
-              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors"
+              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm hover:shadow"
             >
               <i className="fas fa-chevron-right text-gray-600"></i>
             </button>
@@ -1027,10 +1031,10 @@ const CombinedDatePicker = ({
                   w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all duration-200
                   ${day.isDisabled ? 'text-gray-300 cursor-not-allowed' : ''}
                   ${!day.isCurrentMonth && !day.isDisabled ? 'text-gray-400' : ''}
-                  ${day.isCurrentMonth && !day.isDisabled ? 'text-gray-800 hover:bg-gray-100' : ''}
-                  ${day.isStart || day.isEnd ? 'bg-[#003d2b] text-white hover:bg-[#002a1d]' : ''}
+                  ${day.isCurrentMonth && !day.isDisabled ? 'text-gray-800 hover:bg-gray-100 hover:shadow' : ''}
+                  ${day.isStart || day.isEnd ? 'bg-[#003d2b] text-white hover:bg-[#002a1d] shadow-md scale-105' : ''}
                   ${day.isInRange ? 'bg-green-50' : ''}
-                  ${selecting === 'end' && day.date.toDateString() === new Date().toDateString() ? 'border-2 border-green-500' : ''}
+                  ${selecting === 'end' && day.date.toDateString() === new Date().toDateString() ? 'border-2 border-green-500 shadow-sm' : ''}
                 `}
               >
                 {day.date.getDate()}
@@ -1042,11 +1046,11 @@ const CombinedDatePicker = ({
           <div className="mt-4 pt-4 border-t border-gray-100">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#003d2b]"></div>
+                <div className="w-3 h-3 rounded-full bg-[#003d2b] shadow-sm"></div>
                 <span className="text-xs text-gray-600">Check-in</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                <div className="w-3 h-3 rounded-full bg-green-500 shadow-sm"></div>
                 <span className="text-xs text-gray-600">Check-out</span>
               </div>
             </div>
@@ -1064,13 +1068,13 @@ const CombinedDatePicker = ({
             <div className="flex gap-2 mt-4">
               <button
                 onClick={resetDates}
-                className="flex-1 py-2 text-xs font-bold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                className="flex-1 py-2 text-xs font-bold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors shadow-sm hover:shadow"
               >
                 Clear
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="flex-1 py-2 text-xs font-bold text-white bg-[#003d2b] rounded-lg hover:bg-[#002a1d] transition-colors"
+                className="flex-1 py-2 text-xs font-bold text-white bg-[#003d2b] rounded-lg hover:bg-[#002a1d] transition-colors shadow-md hover:shadow-lg"
               >
                 Apply
               </button>
@@ -1098,7 +1102,7 @@ const SearchTabs = ({ onSearchResults, availableTickets = [], context = 'marketp
     if (id === BookingType.BUS) {
       setSelectedSub('Round Trip');
     } else {
-      setSelectedSub('Hostels');
+      setSelectedSub('Hotels');
     }
     setSearchData({});
     
@@ -1339,8 +1343,6 @@ const SearchTabs = ({ onSearchResults, availableTickets = [], context = 'marketp
     return `SEARCH`;
   };
 
- 
-
   const getCurrentSearchFields = () => {
     if (!currentCategory) return [];
     
@@ -1356,7 +1358,7 @@ const SearchTabs = ({ onSearchResults, availableTickets = [], context = 'marketp
     if (activeTab === BookingType.BUS) {
       setSelectedSub('Round Trip');
     } else {
-      setSelectedSub('Hostels');
+      setSelectedSub('Hotels');
     }
     
     // Initial load: show all Bus items by default
@@ -1364,42 +1366,39 @@ const SearchTabs = ({ onSearchResults, availableTickets = [], context = 'marketp
   }, []);
 
   return (
-    <div className="bg-white rounded-[2.5rem] overflow-x--hidden border border-green-50 w-full ">
+    <div className="bg-white rounded-[2.5rem] w-full shadow-xl hover:shadow-2xl transition-shadow duration-300">
       {/* Main Tabs */}
-      <div className="flex overflow-x-auto border-b border-gray-300 hide-scrollbar ">
+      <div className="flex overflow-x-auto border-b border-gray-200 hide-scrollbar">
         {CATEGORIES.map((cat) => (
           <button
             key={cat.id}
             onClick={() => handleTabChange(cat.id)}
             className={`flex items-center gap-3 px-8 py-5 whitespace-nowrap font-bold transition-all duration-300 relative min-w-[140px] ${
               activeTab === cat.id 
-                ? 'text-[#003d2b]' 
-                : 'text-gray-400 hover:text-gray-600'
+                ? 'text-[#003d2b]  shadow-sm' 
+                : 'text-gray-400 hover:text-gray-600 '
             }`}
           >
             <i className={`fas ${cat.icon} text-lg`}></i>
             <span>{cat.label}</span>
             {activeTab === cat.id && (
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#003d2b] animate-slideIn"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#003d2b] to-[#006644] animate-slideIn shadow-sm"></div>
             )}
           </button>
         ))}
       </div>
 
       <div className="p-4">
-        {/* Header Section */}
-      
-
         {/* Sub Category Chips */}
-        <div className="flex gap-2 overflow-x-auto pb-6 hide-scrollbar mb-2">
+        <div className="flex gap-2 overflow-x-auto pb-6 hide-scrollbar mb-2 pl-1 pt-1 ">
           {currentCategory?.subs.map(sub => (
             <button 
               key={sub}
               onClick={() => handleSubCategoryChange(sub)}
-              className={`px-6 py-3 rounded-full text-xs font-bold transition-all duration-200 border whitespace-nowrap shrink-0 ${
+              className={`px-6 py-3 rounded-full text-xs font-bold transition-all duration-200 border whitespace-nowrap shrink-0 shadow-sm ${
                 selectedSub === sub 
-                  ? 'bg-[#003d2b] text-white border-[#003d2b] shadow-md' 
-                  : 'bg-white text-gray-400 border-gray-100 hover:border-green-200 hover:text-gray-600'
+                  ? 'bg-gradient-to-r from-[#003d2b] to-[#006644] text-white border-transparent shadow-lg scale-105' 
+                  : 'bg-white text-gray-400 border-gray-200 hover:border-green-300 hover:text-gray-600 hover:shadow'
               }`}
             >
               {sub.toUpperCase()}
@@ -1414,7 +1413,7 @@ const SearchTabs = ({ onSearchResults, availableTickets = [], context = 'marketp
               <label className="text-[10px] font-black text-gray-400 tracking-widest ml-1 uppercase">
                 {field.label}
               </label>
-              <div className={`${['combinedDate', 'singleDate', 'roomsSeats', 'durationPicker'].includes(field.type) ? '' : 'flex items-center gap-3 bg-gray-50 border border-gray-100 rounded-2xl px-5 py-3.5 focus-within:border-green-300 focus-within:ring-2 focus-within:ring-green-100 transition-all duration-200'}`}>
+              <div className={`${['combinedDate', 'singleDate', 'roomsSeats', 'durationPicker'].includes(field.type) ? '' : 'flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-2xl px-5 py-3.5 focus-within:border-green-300 focus-within:ring-4 focus-within:ring-green-100 transition-all duration-200 shadow-sm hover:shadow-md'}`}>
                 {!['combinedDate', 'singleDate', 'roomsSeats', 'durationPicker'].includes(field.type) && (
                   <i className={`fas ${field.icon} text-[#003d2b]`}></i>
                 )}
@@ -1428,7 +1427,7 @@ const SearchTabs = ({ onSearchResults, availableTickets = [], context = 'marketp
             <button 
               onClick={handleSearch}
               disabled={isSearching}
-              className={`w-full bg-gradient-to-r from-[#003d2b] to-[#006644] text-white font-black py-4 rounded-2xl hover:shadow-xl hover:shadow-green-200/50 transition-all duration-300 uppercase tracking-widest text-sm hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 ${
+              className={`w-full bg-gradient-to-r from-[#003d2b] to-[#006644] text-white font-black py-4 rounded-2xl hover:shadow-2xl hover:shadow-green-300/50 transition-all duration-300 uppercase tracking-widest text-sm hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg ${
                 isSearching ? 'opacity-80 cursor-not-allowed' : ''
               }`}
             >

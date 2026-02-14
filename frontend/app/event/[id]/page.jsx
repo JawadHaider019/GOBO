@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { useApp } from '@/context/AppContext';
-import BookingConfirmationModal from '@/components/BookingConfirmationModal';
-import AuthModal from '@/components/AuthModal'; // Import AuthModal
+import { useApp } from '../../../context/AppContext';
+import BookingConfirmationModal from '../../../components/BookingConfirmationModal';
+import AuthModal from '../../../components/AuthModal'; // Import AuthModal
 
 const EventDetail = () => {
   const router = useRouter();
