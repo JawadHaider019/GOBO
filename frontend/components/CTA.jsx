@@ -7,7 +7,7 @@ const CTA = () => {
   const router = useRouter();
 
   const handleStartBooking = () => {
-    router.push('/marketplace');
+    router.push('/explore');
   };
 
   return (

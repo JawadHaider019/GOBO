@@ -9,21 +9,20 @@ const Footer = () => {
          <i className="fas fa-ticket-alt text-[20rem]"></i>
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 relative ">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 relative">
         {/* Company Info */}
         <div className="space-y-2">
-          <Link href="/" className="inline-block p-2 ">
+          <Link href="/" className="inline-block p-2">
             <div className="relative w-20 h-20">
-              {/* Fallback if image doesn't load */}
               <img 
                 src="/logowhite.png" 
-                alt="Go Booking Logo" 
+                alt="GoBo Logo" 
                 className="w-full h-full object-contain"
                 onError={(e) => {
                   e.target.style.display = 'none';
                   e.target.parentElement.innerHTML = `
                     <div class="w-full h-full bg-gradient-to-br from-[#003d2b] to-[#006644] rounded-2xl flex items-center justify-center text-white">
-                      <span class="font-bold text-lg">GB</span>
+                      <span class="font-bold text-lg">GoBo</span>
                     </div>
                   `;
                 }}
@@ -32,83 +31,130 @@ const Footer = () => {
           </Link>
 
           <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-          Pakistan’s digital booking and ticket management platform for everyday experiences.
+            Pakistan's most trusted digital marketplace for tickets and reservations. Simple, secure, and verified.
           </p>
           <div className="flex gap-3 pt-2">
             {['facebook', 'instagram', 'twitter', 'linkedin'].map(soc => (
-              <button 
+              <Link 
+                href={`https://${soc}.com/gobo`}
                 key={soc}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-gray-300 hover:text-[#00ff88] hover:bg-white/10 transition-all duration-200 hover:scale-105 active:scale-95"
                 aria-label={`Follow us on ${soc}`}
               >
                 <i className={`fab fa-${soc}`}></i>
-              </button>
+              </Link>
             ))}
           </div>
         </div>
 
-        {/* Ecosystem Links */}
+        {/* Services */}
         <div className="space-y-6">
-          <h4 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-green-400">Ecosystem</h4>
+          <h4 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-green-400">Services</h4>
           <ul className="space-y-3">
-            {['Events & Concerts', 'Bus & Transport', 'Apartment Amenities', 'Marketplace Resale', 'Smart Combos'].map(item => (
-              <li key={item}>
-                <button className="text-gray-300 hover:text-white text-sm font-medium transition-all duration-200 flex items-center gap-2 group hover:translate-x-1">
-                          <span className="group-hover:text-[#00ff88] transition-colors">{item}</span>
-                </button>
+            {[
+              { name: 'Events & Concerts', path: '/services#events' },
+              { name: 'Bus & Transport', path: '/services#transport' },
+              { name: 'Hotels & Living', path: '/services#hotels' },
+              { name: 'Cinema & Entertainment', path: '/services#cinema' },
+              { name: 'Tours & Activities', path: '/services#tours' },
+              { name: 'Corporate Events', path: '/services#corporate' }
+            ].map(item => (
+              <li key={item.name}>
+                <Link 
+                  href={item.path}
+                  className="text-gray-300 hover:text-white text-sm font-medium transition-all duration-200 flex items-center gap-2 group hover:translate-x-1"
+                >
+                  <span className="group-hover:text-[#00ff88] transition-colors">{item.name}</span>
+                </Link>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Trust & Safety Links */}
+        {/* Company */}
         <div className="space-y-6">
-          <h4 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-green-400">Trust & Safety</h4>
+          <h4 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-green-400">Company</h4>
           <ul className="space-y-3">
-            {['Identity Verification', 'CNIC Binding Guide', 'Anti-Fraud Policy', 'Privacy Protocol', 'Seller Approval'].map(item => (
-              <li key={item}>
-                <button className="text-gray-300 hover:text-white text-sm font-medium transition-all duration-200 flex items-center gap-2 group hover:translate-x-1">
-                                    <span className="group-hover:text-[#00ff88] transition-colors">{item}</span>
-                </button>
+            {[
+              { name: 'About ', path: '/about' },
+              { name: 'Explore', path: '/explore' },
+              { name: 'Blog', path: '/blogs' },
+              { name: 'Contact ', path: '/contact' },
+            ].map(item => (
+              <li key={item.name}>
+                <Link 
+                  href={item.path}
+                  className="text-gray-300 hover:text-white text-sm font-medium transition-all duration-200 flex items-center gap-2 group hover:translate-x-1"
+                >
+                  <span className="group-hover:text-[#00ff88] transition-colors">{item.name}</span>
+                </Link>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Newsletter */}
+        {/* Legal & Support */}
         <div className="space-y-6">
-          <h4 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-green-400">Stay Updated</h4>
-          <div className="space-y-4">
-            <p className="text-gray-300 text-sm">Join our network for exclusive event drops.</p>
-            <div className="flex flex-col gap-3">
-              <input 
-                type="email" 
-                placeholder="Your Email" 
-                className="bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm focus:border-green-400 outline-none transition-all duration-200 font-medium text-white placeholder-gray-500 focus:ring-2 focus:ring-green-400/30"
-              />
-              <button className="bg-gradient-to-r from-[#00ff88] to-[#00cc6a] text-[#003d2b] font-semibold text-[11px] py-3.5 rounded-xl uppercase tracking-widest shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all duration-200">
-                Subscribe
-              </button>
-            </div>
+          <h4 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-green-400">Legal & Support</h4>
+          <ul className="space-y-3">
+            {[
+              { name: 'Terms of Service', path: '/terms' },
+              { name: 'Privacy Policy', path: '/privacy' },
+              { name: 'Cookie Policy', path: '/cookies' },
+              { name: 'FAQ', path: '/faq' },
+              { name: 'Support Center', path: '/support' }
+            ].map(item => (
+              <li key={item.name}>
+                <Link 
+                  href={item.path}
+                  className="text-gray-300 hover:text-white text-sm font-medium transition-all duration-200 flex items-center gap-2 group hover:translate-x-1"
+                >
+                  <span className="group-hover:text-[#00ff88] transition-colors">{item.name}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          {/* Contact Info */}
+          <div className="pt-4 space-y-2">
+            <p className="text-xs text-gray-400">Email: support@gobo.pk</p>
+            <p className="text-xs text-gray-400">Phone: +92 300 111 4626</p>
+            <p className="text-xs text-gray-400">Hours: 24/7 Support</p>
           </div>
         </div>
       </div>
 
       {/* Bottom Section */}
-      <div className="max-w-7xl mx-auto pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 relative ">
+      <div className="max-w-7xl mx-auto pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 relative">
         <p className="text-[10px] font-medium text-gray-400 uppercase tracking-widest text-center md:text-left">
-          © {new Date().getFullYear()} GO BOOKING PAKISTAN • UNIFIED TICKETING SYSTEM
+          © {new Date().getFullYear()} GoBo • Pakistan's Trusted Booking Platform
         </p>
         <div className="flex gap-6">
-           <button className="text-[10px] font-medium text-gray-400 hover:text-white hover:scale-105 uppercase tracking-widest transition-all duration-200">
-             Terms
-           </button>
-           <button className="text-[10px] font-medium text-gray-400 hover:text-white hover:scale-105 uppercase tracking-widest transition-all duration-200">
-             Privacy
-           </button>
-           <button className="text-[10px] font-medium text-gray-400 hover:text-white hover:scale-105 uppercase tracking-widest transition-all duration-200">
-             Cookies
-           </button>
+          <Link href="/terms" className="text-[10px] font-medium text-gray-400 hover:text-white hover:scale-105 uppercase tracking-widest transition-all duration-200">
+            Terms
+          </Link>
+          <Link href="/privacy" className="text-[10px] font-medium text-gray-400 hover:text-white hover:scale-105 uppercase tracking-widest transition-all duration-200">
+            Privacy
+          </Link>
+          <Link href="/cookies" className="text-[10px] font-medium text-gray-400 hover:text-white hover:scale-105 uppercase tracking-widest transition-all duration-200">
+            Cookies
+          </Link>
+          <Link href="/sitemap" className="text-[10px] font-medium text-gray-400 hover:text-white hover:scale-105 uppercase tracking-widest transition-all duration-200">
+            Sitemap
+          </Link>
+        </div>
+      </div>
+
+      {/* Trust Badge */}
+      <div className="max-w-7xl mx-auto mt-6 flex justify-center">
+        <div className="flex items-center gap-4 text-[8px] text-gray-500 uppercase tracking-wider">
+          <span>✓ CNIC Verified</span>
+          <span className="w-1 h-1 bg-green-500 rounded-full"></span>
+          <span>✓ Secure Payments</span>
+          <span className="w-1 h-1 bg-green-500 rounded-full"></span>
+          <span>✓ QR Protected</span>
         </div>
       </div>
 

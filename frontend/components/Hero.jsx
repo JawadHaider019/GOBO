@@ -32,14 +32,14 @@ const Hero = () => {
       title: "Unified Transit Hub",
       link: "/services#transport",
       Image: "14AG.jpg",
-      color: "bg-gradient-to-br from-blue-900/30 to-cyan-700/20"
+      color: "bg-black/5"
     },
     {
       id: 2,
       title: "Community Amenities",
       link: "/services#housing",
       Image: "/Safari-Basant.jpg",
-      color: "bg-gradient-to-br from-emerald-900/30 to-teal-700/20"
+     color: "bg-black/5"
     }
   ];
 
@@ -137,7 +137,7 @@ const Hero = () => {
         {/* Slide dots */}
         <div className={`absolute z-30 flex ${screenSize === 'mobile' 
           ? 'bottom-4 left-1/2 transform -translate-x-1/2 flex-row gap-2' 
-          : 'bottom-8 right-8 flex-col gap-2'}`}
+          : 'bottom-14 right-8 flex-row gap-2'}`}
         >
           {slides.map((_, index) => (
             <button

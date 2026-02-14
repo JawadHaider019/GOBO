@@ -41,7 +41,7 @@ const Navbar = () => {
     { label: 'Home', path: '/', icon: 'fa-home' },
     { label: 'About', path: '/about', icon: 'fa-info-circle' },
     { label: 'Services', path: '/services', icon: 'fa-concierge-bell' },
-    { label: 'Marketplace', path: '/marketplace', icon: 'fa-store' },
+    { label: 'Explore', path: '/explore', icon: 'fa-store' },
     { label: 'Blogs', path: '/blogs', icon: 'fa-blog' },
     { label: 'Contact', path: '/contact', icon: 'fa-phone' },
   ];

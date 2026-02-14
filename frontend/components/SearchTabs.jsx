@@ -120,7 +120,7 @@ const CATEGORIES = [
   }
 ];
 
-// Duration Picker Component for Apartments
+// Duration Picker Component for Apartments - Responsive
 const DurationPicker = ({ 
   value, 
   onChange,
@@ -164,13 +164,13 @@ const DurationPicker = ({
         <i className={`fas fa-chevron-down text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}></i>
       </div>
 
-      {/* Duration Popup - Enhanced with better shadows */}
+      {/* Duration Popup - Responsive */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-4 z-[100] w-[320px]">
+        <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-3 sm:p-4 z-[9999] w-[280px] sm:w-[320px]">
           {/* Header */}
-          <div className="mb-4">
-            <h3 className="font-bold text-gray-900 text-sm mb-1">Select Duration</h3>
-            <p className="text-xs text-gray-500">Minimum stay: 1 month</p>
+          <div className="mb-3 sm:mb-4">
+            <h3 className="font-bold text-gray-900 text-sm sm:text-base mb-1">Select Duration</h3>
+            <p className="text-[10px] sm:text-xs text-gray-500">Minimum stay: 1 month</p>
           </div>
 
           {/* Duration Options */}
@@ -179,42 +179,37 @@ const DurationPicker = ({
               <button
                 key={index}
                 onClick={() => handleDurationSelect(option)}
-                className={`w-full p-3 rounded-lg border text-left transition-all shadow-sm ${
+                className={`w-full p-2.5 sm:p-3 rounded-lg border text-left transition-all shadow-sm text-xs sm:text-sm ${
                   value === option 
                     ? 'border-[#003d2b] bg-[#003d2b] text-white shadow-md' 
                     : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 hover:shadow'
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-medium text-sm">{option}</span>
+                  <span className="font-medium">{option}</span>
                   {value === option && (
-                    <i className="fas fa-check"></i>
+                    <i className="fas fa-check text-xs sm:text-sm"></i>
                   )}
                 </div>
                 {option === '1 Month' && (
-                  <p className="text-xs mt-1 opacity-80">Short term option</p>
+                  <p className="text-[8px] sm:text-xs mt-1 opacity-80">Short term option</p>
                 )}
                 {option === 'Long Term' && (
-                  <p className="text-xs mt-1 opacity-80">More than 1 year</p>
+                  <p className="text-[8px] sm:text-xs mt-1 opacity-80">More than 1 year</p>
                 )}
               </button>
             ))}
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-2 mt-4">
+          <div className="flex gap-2 mt-3 sm:mt-4">
             <button
               onClick={handleClear}
-              className="flex-1 py-2 text-xs font-bold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors shadow-sm hover:shadow"
+              className="flex-1 py-1.5 sm:py-2 text-[10px] sm:text-xs font-bold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors shadow-sm hover:shadow"
             >
               Clear
             </button>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="flex-1 py-2 text-xs font-bold text-white bg-[#003d2b] rounded-lg hover:bg-[#002a1d] transition-colors shadow-md hover:shadow-lg"
-            >
-              Done
-            </button>
+           
           </div>
         </div>
       )}
@@ -222,7 +217,7 @@ const DurationPicker = ({
   );
 };
 
-// Rooms/Seats Selector Component - Fixed selection visibility
+// Rooms/Seats Selector Component - Responsive
 const RoomsSeatsSelector = ({ 
   livingType, 
   value, 
@@ -336,18 +331,18 @@ const RoomsSeatsSelector = ({
   };
 
   const renderHostelContent = () => (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       <div className="space-y-2">
-        <label className="text-xs font-bold text-gray-600">Seater Type</label>
-        <div className="grid grid-cols-2 gap-2">
+        <label className="text-[10px] sm:text-xs font-bold text-gray-600">Seater Type</label>
+        <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
           {hostelSeaterTypes.map(type => (
             <button
               key={type.id}
               onClick={() => addSelection(type)}
-              className="p-3 rounded-lg border border-gray-200 hover:border-[#003d2b] hover:bg-[#003d2b] hover:text-white flex flex-col items-center gap-2 transition-all shadow-sm"
+              className="p-2 sm:p-3 rounded-lg border border-gray-200 hover:border-[#003d2b] hover:bg-[#003d2b] hover:text-white flex flex-col items-center gap-1 sm:gap-2 transition-all shadow-sm"
             >
-              <i className={`fas ${type.icon} text-gray-600 group-hover:text-white`}></i>
-              <span className="text-xs font-bold">{type.label}</span>
+              <i className={`fas ${type.icon} text-gray-600 group-hover:text-white text-xs sm:text-sm`}></i>
+              <span className="text-[10px] sm:text-xs font-bold">{type.label}</span>
             </button>
           ))}
         </div>
@@ -356,47 +351,47 @@ const RoomsSeatsSelector = ({
       {/* Selected Items with Count Controls */}
       {selections.length > 0 && (
         <div className="space-y-2">
-          <label className="text-xs font-bold text-gray-600">Selected Items</label>
+          <label className="text-[10px] sm:text-xs font-bold text-gray-600">Selected Items</label>
           {selections.map((selection, index) => (
-            <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg shadow-sm border border-gray-200">
+            <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between bg-gray-50 p-2 sm:p-3 rounded-lg shadow-sm border border-gray-200 gap-2">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-[#003d2b] rounded-full flex items-center justify-center text-white">
-                  <i className={`fas ${selection.type === 'hostel' ? 'fa-user' : selection.type === 'hotel' ? 'fa-bed' : 'fa-home'} text-xs`}></i>
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-[#003d2b] rounded-full flex items-center justify-center text-white flex-shrink-0">
+                  <i className={`fas ${selection.type === 'hostel' ? 'fa-user' : selection.type === 'hotel' ? 'fa-bed' : 'fa-home'} text-[8px] sm:text-xs`}></i>
                 </div>
-                <div>
-                  <span className="text-xs font-bold text-gray-800 block">
+                <div className="min-w-0">
+                  <span className="text-[10px] sm:text-xs font-bold text-gray-800 block truncate">
                     {selection.type === 'hostel' ? selection.seaterType : 
                      selection.type === 'hotel' ? selection.roomType : selection.apartmentType}
                   </span>
-                  <span className="text-[10px] text-gray-500">
+                  <span className="text-[8px] sm:text-[10px] text-gray-500">
                     {selection.type === 'hostel' ? `${selection.seats} seat` : 
                      selection.type === 'hotel' ? `${selection.rooms} room` : `${selection.units} unit`} per item
                   </span>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 bg-white rounded-lg border border-gray-200 p-1">
+              <div className="flex items-center justify-between sm:justify-end gap-2">
+                <div className="flex items-center gap-1 sm:gap-2 bg-white rounded-lg border border-gray-200 p-0.5 sm:p-1">
                   <button
                     onClick={() => updateCount(index, -1)}
-                    className="w-6 h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
+                    className="w-5 h-5 sm:w-6 sm:h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
                   >
-                    <i className="fas fa-minus text-xs text-gray-600"></i>
+                    <i className="fas fa-minus text-[8px] sm:text-xs text-gray-600"></i>
                   </button>
-                  <span className="text-sm font-bold text-gray-800 min-w-[20px] text-center">
+                  <span className="text-xs sm:text-sm font-bold text-gray-800 min-w-[16px] sm:min-w-[20px] text-center">
                     {selection.count}
                   </span>
                   <button
                     onClick={() => updateCount(index, 1)}
-                    className="w-6 h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
+                    className="w-5 h-5 sm:w-6 sm:h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
                   >
-                    <i className="fas fa-plus text-xs text-gray-600"></i>
+                    <i className="fas fa-plus text-[8px] sm:text-xs text-gray-600"></i>
                   </button>
                 </div>
                 <button
                   onClick={() => removeSelection(index)}
-                  className="w-6 h-6 rounded-full hover:bg-red-100 flex items-center justify-center text-red-500"
+                  className="w-5 h-5 sm:w-6 sm:h-6 rounded-full hover:bg-red-100 flex items-center justify-center text-red-500 flex-shrink-0"
                 >
-                  <i className="fas fa-times text-xs"></i>
+                  <i className="fas fa-times text-[8px] sm:text-xs"></i>
                 </button>
               </div>
             </div>
@@ -407,18 +402,18 @@ const RoomsSeatsSelector = ({
   );
 
   const renderHotelContent = () => (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       <div className="space-y-2">
-        <label className="text-xs font-bold text-gray-600">Room Type</label>
-        <div className="grid grid-cols-3 gap-2">
+        <label className="text-[10px] sm:text-xs font-bold text-gray-600">Room Type</label>
+        <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
           {hotelRoomTypes.map(type => (
             <button
               key={type.id}
               onClick={() => addSelection(type)}
-              className="p-3 rounded-lg border border-gray-200 hover:border-[#003d2b] hover:bg-[#003d2b] hover:text-white flex flex-col items-center gap-2 transition-all shadow-sm"
+              className="p-2 sm:p-3 rounded-lg border border-gray-200 hover:border-[#003d2b] hover:bg-[#003d2b] hover:text-white flex flex-col items-center gap-1 sm:gap-2 transition-all shadow-sm"
             >
-              <i className={`fas ${type.icon} text-gray-600 group-hover:text-white`}></i>
-              <span className="text-xs font-bold">{type.label}</span>
+              <i className={`fas ${type.icon} text-gray-600 group-hover:text-white text-xs sm:text-sm`}></i>
+              <span className="text-[8px] sm:text-xs font-bold text-center">{type.label}</span>
             </button>
           ))}
         </div>
@@ -427,41 +422,41 @@ const RoomsSeatsSelector = ({
       {/* Selected Items with Count Controls */}
       {selections.length > 0 && (
         <div className="space-y-2">
-          <label className="text-xs font-bold text-gray-600">Selected Items</label>
+          <label className="text-[10px] sm:text-xs font-bold text-gray-600">Selected Items</label>
           {selections.map((selection, index) => (
-            <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg shadow-sm border border-gray-200">
+            <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between bg-gray-50 p-2 sm:p-3 rounded-lg shadow-sm border border-gray-200 gap-2">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-[#003d2b] rounded-full flex items-center justify-center text-white">
-                  <i className="fas fa-bed text-xs"></i>
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-[#003d2b] rounded-full flex items-center justify-center text-white flex-shrink-0">
+                  <i className="fas fa-bed text-[8px] sm:text-xs"></i>
                 </div>
-                <div>
-                  <span className="text-xs font-bold text-gray-800 block">{selection.roomType}</span>
-                  <span className="text-[10px] text-gray-500">{selection.rooms} room per item</span>
+                <div className="min-w-0">
+                  <span className="text-[10px] sm:text-xs font-bold text-gray-800 block truncate">{selection.roomType}</span>
+                  <span className="text-[8px] sm:text-[10px] text-gray-500">{selection.rooms} room per item</span>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 bg-white rounded-lg border border-gray-200 p-1">
+              <div className="flex items-center justify-between sm:justify-end gap-2">
+                <div className="flex items-center gap-1 sm:gap-2 bg-white rounded-lg border border-gray-200 p-0.5 sm:p-1">
                   <button
                     onClick={() => updateCount(index, -1)}
-                    className="w-6 h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
+                    className="w-5 h-5 sm:w-6 sm:h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
                   >
-                    <i className="fas fa-minus text-xs text-gray-600"></i>
+                    <i className="fas fa-minus text-[8px] sm:text-xs text-gray-600"></i>
                   </button>
-                  <span className="text-sm font-bold text-gray-800 min-w-[20px] text-center">
+                  <span className="text-xs sm:text-sm font-bold text-gray-800 min-w-[16px] sm:min-w-[20px] text-center">
                     {selection.count}
                   </span>
                   <button
                     onClick={() => updateCount(index, 1)}
-                    className="w-6 h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
+                    className="w-5 h-5 sm:w-6 sm:h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
                   >
-                    <i className="fas fa-plus text-xs text-gray-600"></i>
+                    <i className="fas fa-plus text-[8px] sm:text-xs text-gray-600"></i>
                   </button>
                 </div>
                 <button
                   onClick={() => removeSelection(index)}
-                  className="w-6 h-6 rounded-full hover:bg-red-100 flex items-center justify-center text-red-500"
+                  className="w-5 h-5 sm:w-6 sm:h-6 rounded-full hover:bg-red-100 flex items-center justify-center text-red-500 flex-shrink-0"
                 >
-                  <i className="fas fa-times text-xs"></i>
+                  <i className="fas fa-times text-[8px] sm:text-xs"></i>
                 </button>
               </div>
             </div>
@@ -472,18 +467,18 @@ const RoomsSeatsSelector = ({
   );
 
   const renderApartmentContent = () => (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       <div className="space-y-2">
-        <label className="text-xs font-bold text-gray-600">Apartment Type</label>
-        <div className="grid grid-cols-2 gap-2">
+        <label className="text-[10px] sm:text-xs font-bold text-gray-600">Apartment Type</label>
+        <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
           {apartmentTypes.map(type => (
             <button
               key={type.id}
               onClick={() => addSelection(type)}
-              className="p-3 rounded-lg border border-gray-200 hover:border-[#003d2b] hover:bg-[#003d2b] hover:text-white flex flex-col items-center gap-2 transition-all shadow-sm"
+              className="p-2 sm:p-3 rounded-lg border border-gray-200 hover:border-[#003d2b] hover:bg-[#003d2b] hover:text-white flex flex-col items-center gap-1 sm:gap-2 transition-all shadow-sm"
             >
-              <i className={`fas ${type.icon} text-gray-600 group-hover:text-white`}></i>
-              <span className="text-xs font-bold">{type.label}</span>
+              <i className={`fas ${type.icon} text-gray-600 group-hover:text-white text-xs sm:text-sm`}></i>
+              <span className="text-[10px] sm:text-xs font-bold">{type.label}</span>
             </button>
           ))}
         </div>
@@ -492,41 +487,41 @@ const RoomsSeatsSelector = ({
       {/* Selected Items with Count Controls */}
       {selections.length > 0 && (
         <div className="space-y-2">
-          <label className="text-xs font-bold text-gray-600">Selected Items</label>
+          <label className="text-[10px] sm:text-xs font-bold text-gray-600">Selected Items</label>
           {selections.map((selection, index) => (
-            <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg shadow-sm border border-gray-200">
+            <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between bg-gray-50 p-2 sm:p-3 rounded-lg shadow-sm border border-gray-200 gap-2">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-[#003d2b] rounded-full flex items-center justify-center text-white">
-                  <i className="fas fa-home text-xs"></i>
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-[#003d2b] rounded-full flex items-center justify-center text-white flex-shrink-0">
+                  <i className="fas fa-home text-[8px] sm:text-xs"></i>
                 </div>
-                <div>
-                  <span className="text-xs font-bold text-gray-800 block">{selection.apartmentType}</span>
-                  <span className="text-[10px] text-gray-500">{selection.units} unit per item</span>
+                <div className="min-w-0">
+                  <span className="text-[10px] sm:text-xs font-bold text-gray-800 block truncate">{selection.apartmentType}</span>
+                  <span className="text-[8px] sm:text-[10px] text-gray-500">{selection.units} unit per item</span>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 bg-white rounded-lg border border-gray-200 p-1">
+              <div className="flex items-center justify-between sm:justify-end gap-2">
+                <div className="flex items-center gap-1 sm:gap-2 bg-white rounded-lg border border-gray-200 p-0.5 sm:p-1">
                   <button
                     onClick={() => updateCount(index, -1)}
-                    className="w-6 h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
+                    className="w-5 h-5 sm:w-6 sm:h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
                   >
-                    <i className="fas fa-minus text-xs text-gray-600"></i>
+                    <i className="fas fa-minus text-[8px] sm:text-xs text-gray-600"></i>
                   </button>
-                  <span className="text-sm font-bold text-gray-800 min-w-[20px] text-center">
+                  <span className="text-xs sm:text-sm font-bold text-gray-800 min-w-[16px] sm:min-w-[20px] text-center">
                     {selection.count}
                   </span>
                   <button
                     onClick={() => updateCount(index, 1)}
-                    className="w-6 h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
+                    className="w-5 h-5 sm:w-6 sm:h-6 rounded-md hover:bg-gray-100 flex items-center justify-center"
                   >
-                    <i className="fas fa-plus text-xs text-gray-600"></i>
+                    <i className="fas fa-plus text-[8px] sm:text-xs text-gray-600"></i>
                   </button>
                 </div>
                 <button
                   onClick={() => removeSelection(index)}
-                  className="w-6 h-6 rounded-full hover:bg-red-100 flex items-center justify-center text-red-500"
+                  className="w-5 h-5 sm:w-6 sm:h-6 rounded-full hover:bg-red-100 flex items-center justify-center text-red-500 flex-shrink-0"
                 >
-                  <i className="fas fa-times text-xs"></i>
+                  <i className="fas fa-times text-[8px] sm:text-xs"></i>
                 </button>
               </div>
             </div>
@@ -572,22 +567,22 @@ const RoomsSeatsSelector = ({
         <i className={`fas fa-chevron-down text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}></i>
       </div>
 
-      {/* Dropdown Popup */}
+      {/* Dropdown Popup - Responsive */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-4 z-[9999] w-[320px]">
+        <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-3 sm:p-4 z-[9999] w-[280px] sm:w-[320px] max-h-[80vh] overflow-y-auto">
           {/* Type Header */}
-          <div className="mb-4">
+          <div className="mb-3 sm:mb-4">
             <div className="flex items-center gap-2 mb-1">
               <i className={`fas ${
                 livingType === 'Hostels' ? 'fa-user' : 
                 livingType === 'Hotels' ? 'fa-bed' : 'fa-home'
-              } text-[#003d2b]`}></i>
-              <h3 className="font-bold text-gray-900">
+              } text-[#003d2b] text-sm sm:text-base`}></i>
+              <h3 className="font-bold text-gray-900 text-sm sm:text-base">
                 {livingType === 'Hostels' ? 'Select Seats' : 
                  livingType === 'Hotels' ? 'Select Rooms' : 'Select Apartments'}
               </h3>
             </div>
-            <p className="text-xs text-gray-500">
+            <p className="text-[10px] sm:text-xs text-gray-500">
               Click on a type to add it to your selection
             </p>
           </div>
@@ -599,8 +594,7 @@ const RoomsSeatsSelector = ({
     </div>
   );
 };
-
-// Single Date Picker Component
+// Single Date Picker Component - with responsive popup
 const SingleDatePicker = ({ 
   value, 
   onChange,
@@ -744,32 +738,32 @@ const SingleDatePicker = ({
         <i className={`fas fa-chevron-down text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}></i>
       </div>
 
-      {/* Calendar Popup - Enhanced with better shadows */}
+      {/* Calendar Popup - Responsive */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-4 z-[100] w-[320px]">
+        <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-3 sm:p-4 z-[9999] w-[280px] sm:w-[320px]">
           {/* Header */}
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-3 sm:mb-4">
             <button 
               onClick={prevMonth}
-              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm hover:shadow"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm hover:shadow"
             >
-              <i className="fas fa-chevron-left text-gray-600"></i>
+              <i className="fas fa-chevron-left text-gray-600 text-xs sm:text-sm"></i>
             </button>
-            <h3 className="font-bold text-gray-900">
+            <h3 className="font-bold text-gray-900 text-sm sm:text-base">
               {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
             </h3>
             <button 
               onClick={nextMonth}
-              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm hover:shadow"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm hover:shadow"
             >
-              <i className="fas fa-chevron-right text-gray-600"></i>
+              <i className="fas fa-chevron-right text-gray-600 text-xs sm:text-sm"></i>
             </button>
           </div>
 
           {/* Day Headers */}
           <div className="grid grid-cols-7 gap-1 mb-2">
             {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
-              <div key={day} className="text-center text-xs font-bold text-gray-500 py-1">
+              <div key={day} className="text-center text-[10px] sm:text-xs font-bold text-gray-500 py-1">
                 {day}
               </div>
             ))}
@@ -783,7 +777,7 @@ const SingleDatePicker = ({
                 onClick={() => handleDayClick(day)}
                 disabled={day.isDisabled}
                 className={`
-                  w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all duration-200
+                  w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center text-xs sm:text-sm font-medium transition-all duration-200
                   ${day.isDisabled ? 'text-gray-300 cursor-not-allowed' : ''}
                   ${!day.isCurrentMonth && !day.isDisabled ? 'text-gray-400' : ''}
                   ${day.isCurrentMonth && !day.isDisabled ? 'text-gray-800 hover:bg-gray-100 hover:shadow' : ''}
@@ -797,30 +791,30 @@ const SingleDatePicker = ({
           </div>
 
           {/* Selection Info */}
-          <div className="mt-4 pt-4 border-t border-gray-100">
+          <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#003d2b] shadow-sm"></div>
-                <span className="text-xs text-gray-600">Selected Date</span>
+                <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#003d2b] shadow-sm"></div>
+                <span className="text-[10px] sm:text-xs text-gray-600">Selected Date</span>
               </div>
             </div>
             
-            <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center justify-between text-xs sm:text-sm">
               <span className="font-bold text-gray-900">
                 {tempDate ? formatDate(tempDate) : 'No date selected'}
               </span>
             </div>
 
-            <div className="flex gap-2 mt-4">
+            <div className="flex gap-2 mt-3 sm:mt-4">
               <button
                 onClick={resetDate}
-                className="flex-1 py-2 text-xs font-bold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors shadow-sm hover:shadow"
+                className="flex-1 py-1.5 sm:py-2 text-[10px] sm:text-xs font-bold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors shadow-sm hover:shadow"
               >
                 Clear
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="flex-1 py-2 text-xs font-bold text-white bg-[#003d2b] rounded-lg hover:bg-[#002a1d] transition-colors shadow-md hover:shadow-lg"
+                className="flex-1 py-1.5 sm:py-2 text-[10px] sm:text-xs font-bold text-white bg-[#003d2b] rounded-lg hover:bg-[#002a1d] transition-colors shadow-md hover:shadow-lg"
               >
                 Apply
               </button>
@@ -989,95 +983,91 @@ const CombinedDatePicker = ({
         <i className={`fas fa-chevron-down text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}></i>
       </div>
 
-      {/* Calendar Popup - Enhanced with better shadows */}
+      {/* Calendar Popup - Responsive */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-4 z-[100] w-[320px]">
+        <div className="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-3 sm:p-4 z-[9999] w-[280px] sm:w-[320px]">
           {/* Header */}
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-3 sm:mb-4">
             <button 
               onClick={prevMonth}
-              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm hover:shadow"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm hover:shadow"
             >
-              <i className="fas fa-chevron-left text-gray-600"></i>
+              <i className="fas fa-chevron-left text-gray-600 text-xs sm:text-sm"></i>
             </button>
-            <h3 className="font-bold text-gray-900">
+            <h3 className="font-bold text-gray-900 text-sm sm:text-base">
               {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
             </h3>
             <button 
               onClick={nextMonth}
-              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm hover:shadow"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm hover:shadow"
             >
-              <i className="fas fa-chevron-right text-gray-600"></i>
+              <i className="fas fa-chevron-right text-gray-600 text-xs sm:text-sm"></i>
             </button>
           </div>
 
           {/* Day Headers */}
           <div className="grid grid-cols-7 gap-1 mb-2">
             {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
-              <div key={day} className="text-center text-xs font-bold text-gray-500 py-1">
+              <div key={day} className="text-center text-[10px] sm:text-xs font-bold text-gray-500 py-1">
                 {day}
               </div>
             ))}
           </div>
 
           {/* Calendar Grid */}
-          <div className="grid grid-cols-7 gap-1">
-            {calendarDays.map((day, index) => (
-              <button
-                key={index}
-                onClick={() => handleDayClick(day)}
-                disabled={day.isDisabled}
-                className={`
-                  w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all duration-200
-                  ${day.isDisabled ? 'text-gray-300 cursor-not-allowed' : ''}
-                  ${!day.isCurrentMonth && !day.isDisabled ? 'text-gray-400' : ''}
-                  ${day.isCurrentMonth && !day.isDisabled ? 'text-gray-800 hover:bg-gray-100 hover:shadow' : ''}
-                  ${day.isStart || day.isEnd ? 'bg-[#003d2b] text-white hover:bg-[#002a1d] shadow-md scale-105' : ''}
-                  ${day.isInRange ? 'bg-green-50' : ''}
-                  ${selecting === 'end' && day.date.toDateString() === new Date().toDateString() ? 'border-2 border-green-500 shadow-sm' : ''}
-                `}
-              >
-                {day.date.getDate()}
-              </button>
-            ))}
-          </div>
+         <div className="grid grid-cols-7 gap-1">
+  {calendarDays.map((day, index) => (
+    <button
+      key={index}
+      onClick={() => handleDayClick(day)}
+      disabled={day.isDisabled}
+      className={`
+        w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center text-xs sm:text-sm font-medium transition-all duration-200
+        ${day.isDisabled ? 'text-gray-300 cursor-not-allowed' : ''}
+        ${!day.isCurrentMonth && !day.isDisabled ? 'text-gray-400' : ''}
+        ${day.isCurrentMonth && !day.isDisabled ? 'text-gray-800 hover:bg-gray-100 hover:shadow' : ''}
+        ${day.isStart ? 'bg-[#003d2b] text-white hover:bg-[#002a1d] shadow-md scale-105' : ''}
+        ${day.isEnd ? 'bg-green-500 text-white hover:bg-green-600 shadow-md scale-105' : ''}
+        ${day.isInRange ? 'bg-green-50' : ''}
+        ${selecting === 'end' && day.date.toDateString() === new Date().toDateString() ? 'border-2 border-green-500 shadow-sm' : ''}
+      `}
+    >
+      {day.date.getDate()}
+    </button>
+  ))}
+</div>
 
           {/* Selection Info */}
-          <div className="mt-4 pt-4 border-t border-gray-100">
+          <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#003d2b] shadow-sm"></div>
-                <span className="text-xs text-gray-600">Check-in</span>
+                <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#003d2b] shadow-sm"></div>
+                <span className="text-[10px] sm:text-xs text-gray-600">Check-in</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-green-500 shadow-sm"></div>
-                <span className="text-xs text-gray-600">Check-out</span>
+                <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500 shadow-sm"></div>
+                <span className="text-[10px] sm:text-xs text-gray-600">Check-out</span>
               </div>
             </div>
             
-            <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center justify-between text-xs sm:text-sm">
               <span className="font-bold text-gray-900">
                 {tempStartDate ? formatDate(tempStartDate) : 'Select check-in'}
               </span>
-              <i className="fas fa-arrow-right text-gray-400 mx-2"></i>
+              <i className="fas fa-arrow-right text-gray-400 mx-2 text-xs sm:text-sm"></i>
               <span className="font-bold text-gray-900">
                 {tempEndDate ? formatDate(tempEndDate) : 'Select check-out'}
               </span>
             </div>
 
-            <div className="flex gap-2 mt-4">
+            <div className="flex gap-2 mt-3 sm:mt-4">
               <button
                 onClick={resetDates}
-                className="flex-1 py-2 text-xs font-bold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors shadow-sm hover:shadow"
+                className="flex-1 py-1.5 sm:py-2 text-[10px] sm:text-xs font-bold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors shadow-sm hover:shadow"
               >
                 Clear
               </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="flex-1 py-2 text-xs font-bold text-white bg-[#003d2b] rounded-lg hover:bg-[#002a1d] transition-colors shadow-md hover:shadow-lg"
-              >
-                Apply
-              </button>
+             
             </div>
           </div>
         </div>

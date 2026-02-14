@@ -60,13 +60,13 @@ const LatestCollection = () => {
       <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 md:gap-8 mb-4">
         <div className="space-y-2 md:space-y-4">
           <span className="text-[12px] font-black text-[#00ff88] uppercase tracking-[0.4em]">
-            Featured Collection
+            Latest Collection
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter">
-            Travel & Stay
+    Fresh Arrivals
           </h2>
-          <p className="text-gray-400 text-sm md:text-base max-w-2xl">
-            Premium bus services and accommodations. {items.length} experiences available.
+             <p className="text-gray-100 text-sm md:text-base max-w-2xl">
+         Discover our newest events, travel options, and accommodations.
           </p>
         </div>
         <div className="flex items-center gap-4">

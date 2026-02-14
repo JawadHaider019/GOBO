@@ -66,7 +66,7 @@ const BestSelling = () => {
             Crowd Favorites
           </h2>
           <p className="text-gray-100 text-sm md:text-base max-w-2xl">
-            Most popular bus and accommodation services. {items.length} best selling experiences available.
+            Most booked events, travel, and accommodations right now.
           </p>
         </div>
         <div className="flex items-center gap-4">
