@@ -127,36 +127,13 @@ const Footer = () => {
       </div>
 
       {/* Bottom Section */}
-      <div className="max-w-7xl mx-auto pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 relative">
+      <div className="max-w-7xl mx-auto pt-8 border-t border-white/10 flex flex-col md:flex-row justify-center items-center gap-4 relative">
         <p className="text-[10px] font-medium text-gray-400 uppercase tracking-widest text-center md:text-left">
           © {new Date().getFullYear()} GoBo • Pakistan's Trusted Booking Platform
         </p>
-        <div className="flex gap-6">
-          <Link href="/terms" className="text-[10px] font-medium text-gray-400 hover:text-white hover:scale-105 uppercase tracking-widest transition-all duration-200">
-            Terms
-          </Link>
-          <Link href="/privacy" className="text-[10px] font-medium text-gray-400 hover:text-white hover:scale-105 uppercase tracking-widest transition-all duration-200">
-            Privacy
-          </Link>
-          <Link href="/cookies" className="text-[10px] font-medium text-gray-400 hover:text-white hover:scale-105 uppercase tracking-widest transition-all duration-200">
-            Cookies
-          </Link>
-          <Link href="/sitemap" className="text-[10px] font-medium text-gray-400 hover:text-white hover:scale-105 uppercase tracking-widest transition-all duration-200">
-            Sitemap
-          </Link>
-        </div>
       </div>
 
-      {/* Trust Badge */}
-      <div className="max-w-7xl mx-auto mt-6 flex justify-center">
-        <div className="flex items-center gap-4 text-[8px] text-gray-500 uppercase tracking-wider">
-          <span>✓ CNIC Verified</span>
-          <span className="w-1 h-1 bg-green-500 rounded-full"></span>
-          <span>✓ Secure Payments</span>
-          <span className="w-1 h-1 bg-green-500 rounded-full"></span>
-          <span>✓ QR Protected</span>
-        </div>
-      </div>
+    
 
       {/* Decorative elements */}
       <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-green-500/20 to-transparent"></div>
