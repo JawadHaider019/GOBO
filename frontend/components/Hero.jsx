@@ -31,15 +31,8 @@ const Hero = () => {
       id: 1,
       title: "Unified Transit Hub",
       link: "/services#transport",
-      Image: "14AG.jpg",
+      Image: "bannerr.png",
       color: "bg-black/5"
-    },
-    {
-      id: 2,
-      title: "Community Amenities",
-      link: "/services#housing",
-      Image: "/Safari-Basant.jpg",
-     color: "bg-black/5"
     }
   ];
 
@@ -65,12 +58,12 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className="relative w-full bg-gray-900" aria-label="Hero banners" role="region">
+    <div className="relative w-full" aria-label="Hero banners" role="region">
       <style>{`
         /* Desktop specific styles */
         @media (min-width: 768px) {
           .hero-container {
-            height: 90vh;
+            height: auto;
           }
         }
       `}</style>
@@ -96,7 +89,7 @@ const Hero = () => {
               <img
                 src={slide.Image}
                 alt={slide.title}
-                className={`w-full ${screenSize === 'mobile' ? 'h-[100px] object-fill' : 'h-full object-cover'}`}
+                className={`w-full ${screenSize === 'mobile' ? 'h-[100px] object-fill' : 'h-auto object-cover'}`}
                 loading="eager"
                 style={{
                   display: 'block',
