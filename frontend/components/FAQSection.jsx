@@ -65,7 +65,7 @@ const FAQSection = () => {
   ];
 
   return (
-    <div className="bg-gray-50 overflow-hidden w-full py-6 md:py-4">
+    <div className=" overflow-hidden w-full py-6 md:py-4">
       <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-6 md:py-12">
         {/* Header Section */}
         <div className="text-center mb-8 md:mb-12 lg:mb-16 space-y-2 md:space-y-4">

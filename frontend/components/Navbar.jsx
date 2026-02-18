@@ -161,7 +161,7 @@ const Navbar = () => {
                   onClick={() => setIsAuthModalOpen(true)}
                   className="bg-gradient-to-r from-[#003d2b] to-[#006644] text-white font-medium text-[10px] sm:text-xs lg:text-[11px] px-3 sm:px-4 lg:px-6 xl:px-8 py-2 sm:py-2.5 lg:py-3 xl:py-3.5 rounded-lg sm:rounded-xl lg:rounded-2xl shadow-lg shadow-green-100/50 hover:scale-[1.02] transition-all duration-200 active:scale-95 uppercase tracking-[0.1em] sm:tracking-[0.15em] lg:tracking-[0.2em] flex items-center gap-1 sm:gap-2 whitespace-nowrap"
                 >
-                  <i className="fas fa-rocket text-[8px] sm:text-xs lg:hidden"></i>
+                 
                   <span className="hidden sm:inline">Sign In / Sign Up</span>
                   <span className="sm:hidden">Login</span>
                 </button>

@@ -12,13 +12,6 @@ const CTA = () => {
 
   return (
     <section className="relative overflow-hidden py-10 bg-white to-emerald-50/30 ">
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-10 w-72 h-72 bg-green-200/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-emerald-300/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/3 right-1/4 w-32 h-32 bg-green-100/30 rounded-full blur-2xl"></div>
-      </div>
-
       <div className="relative max-w-6xl mx-auto px-6">
         {/* Main Content */}
         <div className="max-w-4xl mx-auto flex flex-col items-center space-y-8">

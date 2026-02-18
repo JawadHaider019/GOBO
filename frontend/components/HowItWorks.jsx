@@ -25,7 +25,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <div className="py-16 bg-gray-50 border border-gray-100"> {/* Reduced py-20 to py-16 */}
+    <div className="py-16 "> {/* Reduced py-20 to py-16 */}
       <div className="text-center mb-12 space-y-3"> {/* Reduced mb-16 to mb-12 */}
         <span className="text-[12px] font-black text-green-600 uppercase tracking-[0.5em]">
           How It Works

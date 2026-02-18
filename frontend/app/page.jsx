@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Hero from '../components/Hero';
-import SearchTabs from '../components/SearchTabs';
+import   FilteredCollection from '../components/FilteredCollection';
 import LatestCollection from '../components/LatestCollection';
 import HowItWorks from '../components/HowItWorks';
 import BestSelling from '../components/BestSelling';
@@ -88,13 +88,7 @@ export default function Home() {
         setFormError('CNIC is required');
         return false;
       }
-      
-      // CNIC format validation (42101-1234567-1)
-      const cnicRegex = /^\d{5}-\d{7}-\d{1}$/;
-      if (!cnicRegex.test(formState.cnic)) {
-        setFormError('Please enter CNIC in format: 42101-XXXXXXX-X');
-        return false;
-      }
+    
     }
 
     return true;
@@ -200,7 +194,7 @@ export default function Home() {
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-[#003d2b] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-sm text-gray-600 font-medium">Loading secure gateway...</p>
+          <p className="text-sm text-gray-600 font-medium">Loading data...</p>
         </div>
       </div>
     );
@@ -219,12 +213,12 @@ export default function Home() {
         formError={formError}
       />
        {/* Search Tabs Section */}
- <section className="relative z-20 -mt-0 sm:-mt-12 md:-mt-10 px-4 md:px-8 lg:px-10 ">
-  <SearchTabs />
+ <section className="relative z-20 -mt-0 sm:-mt-12 md:-mt-20 ">
+  <FilteredCollection />
 </section>
-  <LatestCollection />
+  {/* <LatestCollection /> */}
   <HowItWorks />
-    <BestSelling />
+    {/* <BestSelling /> */}
     <Stats/>
     <FAQSection/>
       <CTA/>
